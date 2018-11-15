@@ -3,13 +3,19 @@ import { withRouter } from 'react-router-dom';
 import { SignUpLink } from './SignUp';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes';
+import {
+  Col, FormGroup, Label, Input, Button, Form, Card, CardBody, CardTitle
+} from 'reactstrap';
 
 const SignInPage = ({ history }) =>
-  <div>
-    <h1>SignInPage</h1>
-    <SignInForm history={history} />
-    <SignUpLink />
-  </div>
+  <Card className='authenticationCard'>
+    <CardBody>
+      <CardTitle>Sign In</CardTitle>
+      <SignInForm history={history} />
+      <SignUpLink />
+    </CardBody>
+  </Card>
+
 
 const byPropKey = ( propertyName, value) => () => ({
   [propertyName] : value,
@@ -60,27 +66,37 @@ class SignInForm extends Component {
       email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={email}
-          onChange={event => this.setState(byPropKey('email', event.target.value))}
-          type='text'
-          placeholder='Email Address'
-        />
-        <input
-          value={password}
-          onChange={event => this.setState(byPropKey('password', event.target.value))}
-          type='password'
-          placeholder='Password'
-        />
+      <Form className='form' onSubmit={this.onSubmit}>
+        <Col>
+          <FormGroup>
+            <Label>Email </Label>
+            <Input
+              value={email}
+              onChange={event => this.setState(byPropKey('email', event.target.value))}
+              type='text'
+              placeholder='Email Address'
+            />
+          </FormGroup>
+        </Col>
+        <Col>
+          <FormGroup>
+            <Label for="examplePassword">Password</Label>
+            <Input
+              value={password}
+              onChange={event => this.setState(byPropKey('password', event.target.value))}
+              type='password'
+              placeholder='Password'
+            />
+          </FormGroup>
+        </Col>
 
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button> 
+        <Button disabled={isInvalid} type="submit">
+          {isInvalid ? 'Cant Submit' : 'Submit'} 
+        </Button> 
 
         {error && <p>{error.message}</p>}
 
-      </form>
+      </Form>
     )
   }
 }

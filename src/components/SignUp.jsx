@@ -5,12 +5,18 @@ import {
   } from 'react-router-dom';
 import * as routes from '../constants/routes';
 import { auth } from '../firebase';
+import {
+  Col, FormGroup, Label, Input, Button, Form, Card, CardBody, CardTitle
+} from 'reactstrap';
 
 const SignUpPage = ({history}) =>
-  <div>
-    <h1>Sign Up</h1>
-    <SignUpForm history={history} />
-  </div>
+  <Card>
+    <CardBody>
+      <CardTitle>Sign Up</CardTitle>
+      <SignUpForm history={history} />
+    </CardBody>
+  </Card>
+
 
 const INITIAL_STATE = {
   username: '',
@@ -67,39 +73,58 @@ class SignUpForm extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value = {username}
-          onChange = {event => this.setState(byPropKey('username', event.target.value))}
-          type = "text"
-          placeholder = "Full Name"
-        />
-        <br />
-        <input
-          value={email}
-          onChange={event => this.setState(byPropKey('email', event.target.value))}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          value={passwordOne}
-          onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          value={passwordTwo}
-          onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
-        <h3>isInvalid: {isInvalid} </h3>
+      <Form onSubmit={this.onSubmit}>
+       <Col>
+          <FormGroup>
+            <Label>Full Name</Label>
+            <Input
+              value = {username}
+              onChange = {event => this.setState(byPropKey('username', event.target.value))}
+              type = "text"
+              placeholder = "Full Name"
+            />
+          </FormGroup>
+        </Col>
+        <Col>
+          <FormGroup>
+            <Label>Email Address</Label>
+            <Input
+              value={email}
+              onChange={event => this.setState(byPropKey('email', event.target.value))}
+              type="text"
+              placeholder="Email Address"
+            />
+          </FormGroup>
+        </Col>      
+        <Col>
+          <FormGroup>
+            <Label>Password</Label>
+            <Input
+              value={passwordOne}
+              onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
+              type="password"
+              placeholder="Password"
+           />
+          </FormGroup>
+        </Col>   
+        <Col>
+          <FormGroup>
+            <Label>Confirm Password</Label>
+            <Input
+              value={passwordTwo}
+              onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
+              type="password"
+              placeholder="Confirm Password"
+            />
+          </FormGroup>
+        </Col>                  
+       
+        <Button disabled={isInvalid} type="submit">
+          {isInvalid ? 'Cant Submit' : 'Submit'} 
+        </Button>
 
         { error && <p>{error.message}</p> }
-      </form>
+      </Form>
     )
   }
 

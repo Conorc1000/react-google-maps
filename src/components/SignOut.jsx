@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { auth } from '../firebase';
-
+import {
+  Button
+} from 'reactstrap';
 class SignOutButton extends Component {
 
   onSubmit = (event) => {
@@ -10,11 +12,11 @@ class SignOutButton extends Component {
   render(){
     return (
       <form onSubmit={this.onSubmit}>
-        <button 
+        <Button 
           type='submit'
         >
           Sign Out
-        </button>
+        </Button>
       </form>
     )  
   }
