@@ -7,6 +7,10 @@ import SignIn from "./components/SignIn";
 import PasswordForgetPage from "./components/PasswordForgetPage";
 import AccountPage from "./components/AccountPage";
 import NewSlipwayPage from "./components/NewSlipwayPage";
+import About from "./components/About";
+import Contact from "./components/Contact";
+
+
 import { 
   BrowserRouter as Router,
   Route, 
@@ -61,6 +65,14 @@ class App extends Component {
           <Route
             exact path = {routes.NEW_SLIPWAY}
             component={NewSlipwayPage}
+          />
+          <Route
+            exact path = {routes.ABOUT}
+            component={About}
+          />
+          <Route
+            exact path = {routes.CONTACT}
+            component={Contact}
           />
         </div>
       </Router>)

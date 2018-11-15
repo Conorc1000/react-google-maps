@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 
 const SignInPage = ({ history }) =>
-  <Card className='authenticationCard'>
+  <Card>
     <CardBody>
       <CardTitle>Sign In</CardTitle>
       <SignInForm history={history} />

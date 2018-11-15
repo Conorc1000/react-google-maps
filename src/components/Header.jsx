@@ -16,10 +16,13 @@ const NavigationAuth = () => {
         <NavLink href={routes.ACCOUNT}>Account</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/find-me/">Find Me</NavLink>
+        <NavLink href="/add-new-slipway/">Add Slipway</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/add-new-slipway/">Add Slipway</NavLink>
+        <NavLink href={routes.ABOUT}>About Us</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.CONTACT}>Contact</NavLink>
       </NavItem>
       <NavItem>
         <SignOutButton />
@@ -39,6 +42,12 @@ const NavigationNonAuth = () => {
       </NavItem>
       <NavItem>
         <NavLink href={routes.LANDING}>Map</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.ABOUT}>About Us</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.CONTACT}>Contact</NavLink>
       </NavItem>
     </Nav>
   )
@@ -64,7 +73,7 @@ class Header extends Component {
     render () {
         return (
             <div>
-              <Navbar color="faded" light>
+              <Navbar light>
                 <NavbarBrand href="/" className="mr-auto">Boatlaunch</NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!this.state.collapsed} navbar>
