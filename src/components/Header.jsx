@@ -1,6 +1,49 @@
 import React, {Component} from "react";
 import * as routes from '../constants/routes';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import SignOutButton from "./SignOut";
+
+const NavigationAuth = () => {
+  return (
+    <Nav navbar>
+      <NavItem>
+        <NavLink href={routes.LANDING}>Map</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.HOME}>Home</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.ACCOUNT}>Account</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/find-me/">Find Me</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/add-new-slipway/">Add Slipway</NavLink>
+      </NavItem>
+      <NavItem>
+        <SignOutButton />
+      </NavItem>
+    </Nav>
+  )
+}
+
+const NavigationNonAuth = () => {
+  return (
+    <Nav navbar>
+      <NavItem>
+      <NavLink href={routes.SIGN_UP}>Sign Up</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.SIGN_IN}>Sign In</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href={routes.LANDING}>Map</NavLink>
+      </NavItem>
+    </Nav>
+  )
+}
+
 
 class Header extends Component {
     
@@ -25,27 +68,12 @@ class Header extends Component {
                 <NavbarBrand href="/" className="mr-auto">Boatlaunch</NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!this.state.collapsed} navbar>
-                  <Nav navbar>
-                    <NavItem>
-                      <NavLink href={routes.SIGN_IN}>Sign In</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href={routes.LANDING}>Map</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href={routes.HOME}>Home</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href={routes.ACCOUNT}>Account</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/find-me/">Find Me</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink href="/add-new-slipway/">Add new slipway</NavLink>
-                    </NavItem>
-                
-                  </Nav>
+                <div>
+                  { this.props.authUser
+                      ? <NavigationAuth />
+                      : <NavigationNonAuth />
+                  }
+                </div>
                 </Collapse>
               </Navbar>
             </div>
