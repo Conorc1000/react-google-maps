@@ -10,9 +10,6 @@ const NavigationAuth = () => {
         <NavLink href={routes.LANDING}>Map</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href={routes.HOME}>Home</NavLink>
-      </NavItem>
-      <NavItem>
         <NavLink href={routes.ACCOUNT}>Account</NavLink>
       </NavItem>
       <NavItem>
