@@ -10,7 +10,6 @@ import NewSlipwayPage from "./components/NewSlipwayPage";
 import About from "./components/About";
 import Contact from "./components/Contact";
 
-
 import { 
   BrowserRouter as Router,
   Route, 
