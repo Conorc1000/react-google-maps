@@ -29,20 +29,34 @@ const Map = compose(
         console.log('Current clicked markers length: ', clickedMarkers.length)
         console.log("clickedMarkers", clickedMarkers)
         
-      }
+      },
+
+      handleToggleOpen: () => {
+        this.setState({
+          isOpen: true
+        });
+      },
+      handleToggleClose: () => {
+        this.setState({
+          isOpen: false
+        });
+      }  
     }),
     withStateHandlers(() => (
       {
         isOpen: false,
+        infoIndex: null
       }), {
-      onToggleOpen: ({ isOpen }) => () => ({
-        isOpen: !isOpen,
-      })
-    }),
+        showInfo: ({ isOpen, infoIndex }) => (index) => ({
+
+          isOpen: infoIndex !== index || !isOpen,
+          infoIndex: index
+        })
+      }
+    ),
     withScriptjs,
     withGoogleMap
   )(props => {
-    console.log("props.state.latLngs", props.state.latLngs);
     return (
       <GoogleMap
         className="map"
@@ -56,21 +70,21 @@ const Map = compose(
             averageCenter
             enableRetinaIcons
             gridSize={50}
-            // position={{
-            //   lat: props.state.location.lat,
-            //   lng: props.state.location.lng
-            // }}
+        
           >
             {
               props.state.latLngsArray.map(latLng => (
                 <Marker 
                   key={latLng[2]}
                   position={{ lat: Number(latLng[0]), lng: Number(latLng[1]) }}
-                  onClick={props.onToggleOpen}
+                  onClick={ () => props.showInfo(latLng[2]) }
                 >
-                  {/* <InfoWindow>
-                    <FaAnchor />
-                  </InfoWindow> */}
+                  {
+                    props.isOpen && props.infoIndex === latLng[2] &&
+                    <InfoWindow onCloseClick={props.showInfo}>
+                      <h1>Something</h1>
+                    </InfoWindow>
+                  }
                 </Marker>
               ))
             }
@@ -97,27 +111,6 @@ class LandingPage extends Component {
       latLngsArray:[],
       latLngsObj:{}
     };
-
-    componentDidUpdate() {
-      // database.getLatLngsSnapshot(latLngsObj => {
-
-      //   let latLngsArray = [];
-
-      //   for (var LatLngKey in latLngsObj) {
-      //     latLngsArray.push(latLngsObj[LatLngKey])
-      //   }
-
-      //   latLngsArray = latLngsArray.slice(10, 20)
-
-      //   console.log("latLngsArray", latLngsArray)
-
-      //   this.setState({
-      //     latLngsObj,
-      //     latLngsArray,
-      //   })
-
-      // });
-    }
   
     componentDidMount() {
 
