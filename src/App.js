@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import PasswordForgetPage from "./components/PasswordForgetPage";
 import AccountPage from "./components/AccountPage";
-import NewSlipwayPage from "./components/NewSlipwayPage";
+import NewSlipwayPage from "./components/NewSlipway";
 import About from "./components/About";
 import Contact from "./components/Contact";
 
@@ -40,7 +40,7 @@ class App extends Component {
       <Router>
         <div>
           <Header authUser={this.state.authUser} />
-        
+      
           <Route
             exact path = {routes.LANDING}
             component={LandingPage}

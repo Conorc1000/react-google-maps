@@ -13,7 +13,7 @@ const NavigationAuth = () => {
         <NavLink href={routes.ACCOUNT}>Account</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/add-new-slipway/">Add Slipway</NavLink>
+        <NavLink href={routes.NEW_SLIPWAY}>Add Slipway</NavLink>
       </NavItem>
       <NavItem>
         <NavLink href={routes.ABOUT}>About Us</NavLink>
@@ -49,7 +49,6 @@ const NavigationNonAuth = () => {
     </Nav>
   )
 }
-
 
 class Header extends Component {
     

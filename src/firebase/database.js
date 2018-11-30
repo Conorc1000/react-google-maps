@@ -6,3 +6,10 @@ export const getLatLngsSnapshot = (callback) =>
     .then((snapshot) => {
       callback(snapshot.val());
     });
+
+export const getSlipwayDetailsSnapshot = (callback) => 
+  database.ref('slipwayDetails')
+    .once('value')
+    .then((snapshot) => {
+      callback(snapshot.val());
+    });

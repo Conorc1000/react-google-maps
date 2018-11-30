@@ -6,9 +6,7 @@ import {
     GoogleMap,
     Marker,
     withGoogleMap,
-    InfoWindow,
-    Text,
-    FaAnchor,
+    InfoWindow
   } from "react-google-maps";  
 import {} from "reactstrap";
 import {database} from '../firebase'
@@ -19,28 +17,15 @@ const Map = compose(
     withProps({
       googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyBdQLHKZ070yXyixJJGT8WG6FVY9Rlyc8Q&?v=3.exp&libraries=geometry,drawing,places",
-      loadingElement: <div style={{ height: `100vh` }} />,
-      containerElement: <div style={{ height: `100vh` }} />,
-      mapElement: <div style={{ height: `90vh`}} />
+      loadingElement: <div style={{ height: '100vh' }} />,
+      containerElement: <div style={{ height: '90vh' }} />,
+      mapElement: <div  style={{ height: '90vh' }} />
     }),
     withHandlers({
       onMarkerClusterClick: () => (markerClusterer) => {
-        const clickedMarkers = markerClusterer.getMarkers();
-        console.log('Current clicked markers length: ', clickedMarkers.length)
-        console.log("clickedMarkers", clickedMarkers)
-        
+        const clickedMarkers = markerClusterer.getMarkers();  
       },
 
-      handleToggleOpen: () => {
-        this.setState({
-          isOpen: true
-        });
-      },
-      handleToggleClose: () => {
-        this.setState({
-          isOpen: false
-        });
-      }  
     }),
     withStateHandlers(() => (
       {
@@ -61,7 +46,7 @@ const Map = compose(
       <GoogleMap
         className="map"
         defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-        center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
+        //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
         zoom={props.state.zoom}
       >
         {
@@ -82,7 +67,23 @@ const Map = compose(
                   {
                     props.isOpen && props.infoIndex === latLng[2] &&
                     <InfoWindow onCloseClick={props.showInfo}>
-                      <h1>Something</h1>
+                      <div>
+                        {
+                          props.state.slipwayDetails[latLng[2]] && 
+                          <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
+                        }
+                        <p>Lat: {latLng[0]}</p>
+                        <p>Long: {latLng[1]}</p>
+                        
+                        {
+                          props.state.slipwayDetails[latLng[2]] &&
+                          props.state.slipwayDetails[latLng[2]].imgs &&
+                          <p>{props.state.slipwayDetails[latLng[2]].imgs.length} Photos</p>
+                        }
+
+                        <a href={`/edit-slipway/` + latLng[2]}>More Information</a>
+
+                      </div>
                     </InfoWindow>
                   }
                 </Marker>
@@ -102,10 +103,7 @@ class LandingPage extends Component {
       },
       haveUsersLocation: false,
       zoom: 3,
-      newSlipway: {
-        name: "",
-        suitability: ""
-      },
+      newSlipway: true,
       sendingMessage: false,
       sentMessage: false,
       latLngsArray:[],
@@ -122,13 +120,15 @@ class LandingPage extends Component {
           latLngsArray.push(latLngsObj[LatLngKey])
         }
 
-        latLngsArray = latLngsArray.slice(10, 20)
-
-        console.log("latLngsArray", latLngsArray)
-
         this.setState({
           latLngsObj,
           latLngsArray,
+        })
+      });
+
+      database.getSlipwayDetailsSnapshot(slipwayDetails => {
+        this.setState({
+          slipwayDetails
         })
 
       });
