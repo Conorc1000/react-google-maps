@@ -69,7 +69,7 @@ class NewSlipway extends Component {
               lng: position.coords.longitude
             },
             haveUsersLocation: true,
-            zoom: 6
+            zoom: 6 
           });
         },
         () => {
@@ -91,7 +91,7 @@ class NewSlipway extends Component {
     render() {
         return (
         <div>
-          <Map state={this.state} setLatLngFromMapClick={this.setLatLngFromMapClick} />
+          <Map className="new-slipway-map" state={this.state} setLatLngFromMapClick={this.setLatLngFromMapClick} />
           <NewSlipwayForm state={this.state} />
         </div>
         
