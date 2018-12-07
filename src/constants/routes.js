@@ -4,6 +4,7 @@ export const LANDING = '/';
 export const ACCOUNT = '/account';
 export const PASSWORD_FORGET = '/pw-forget';
 export const NEW_SLIPWAY = '/new-slipway';
+export const EDIT_SLIPWAY = '/edit-slipway/:id';
+export const VIEW_SLIPWAY = '/view-slipway/:id';
 export const ABOUT = '/about';
 export const CONTACT = '/contact';
-

@@ -1,4 +1,4 @@
-import { compose, withProps, withHandlers, withStateHandlers } from "recompose";
+import { compose, withProps} from "recompose";
 import React, { Component } from "react";
 import NewSlipwayForm from './NewSlipwayForm';
 

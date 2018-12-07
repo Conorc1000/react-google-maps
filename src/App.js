@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import LandingPage from "./components/Landing";
+import Landing from "./components/Landing";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import PasswordForgetPage from "./components/PasswordForgetPage";
-import AccountPage from "./components/AccountPage";
-import NewSlipwayPage from "./components/NewSlipway";
+import PasswordForget from "./components/PasswordForgetPage";
+import Account from "./components/AccountPage";
+import NewSlipway from "./components/NewSlipway";
+import EditSlipway from "./components/EditSlipway";
+import ViewSlipway from "./components/ViewSlipway";
 import About from "./components/About";
 import Contact from "./components/Contact";
 
@@ -14,7 +16,7 @@ import {
   BrowserRouter as Router,
   Route, 
 } from 'react-router-dom';
-import {firebase} from './firebase'
+import {firebase, database} from './firebase'
 
 import * as routes from "./constants/routes"
 
@@ -24,6 +26,8 @@ class App extends Component {
 
     this.state = {
       authUser: null,
+      latLngsArray:[],
+      latLngsObj:{},
     }
   }
 
@@ -33,6 +37,28 @@ class App extends Component {
         ? this.setState({authUser})
         : this.setState({authorUser: null})
     })
+
+    database.getLatLngsSnapshot(latLngsObj => {
+
+      let latLngsArray = [];
+
+      for (var LatLngKey in latLngsObj) {
+        latLngsArray.push(latLngsObj[LatLngKey])
+      }
+
+      this.setState({
+        latLngsObj,
+        latLngsArray,
+      })
+    });
+
+    database.getSlipwayDetailsSnapshot(slipwayDetails => {
+      this.setState({
+        slipwayDetails
+      })
+
+    });
+
   }
 
   render () {
@@ -43,7 +69,11 @@ class App extends Component {
       
           <Route
             exact path = {routes.LANDING}
-            component={LandingPage}
+            render={()=><Landing 
+              latLngsObj = {this.state.latLngsObj}
+              latLngsArray={this.state.latLngsArray}
+              slipwayDetails = {this.state.slipwayDetails}
+            />}
           />
           <Route
             exact path = {routes.SIGN_UP}
@@ -55,15 +85,29 @@ class App extends Component {
           />
           <Route
             exact path = {routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
+            component={PasswordForget}
           />
           <Route
             exact path = {routes.ACCOUNT}
-            component={AccountPage}
+            component={Account}
           />
           <Route
             exact path = {routes.NEW_SLIPWAY}
-            component={NewSlipwayPage}
+            component={NewSlipway}
+          />
+          <Route
+            exact path = {routes.EDIT_SLIPWAY}
+            component={EditSlipway}
+          />
+           <Route
+            exact path = {routes.VIEW_SLIPWAY}
+            match = {this.state.match}
+            render={()=><ViewSlipway 
+              match = {this.state.match}
+              latLngsObj = {this.state.latLngsObj}
+              latLngsArray={this.state.latLngsArray}
+              slipwayDetails = {this.state.slipwayDetails}
+            />}
           />
           <Route
             exact path = {routes.ABOUT}
