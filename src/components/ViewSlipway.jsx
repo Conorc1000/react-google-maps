@@ -22,66 +22,56 @@ const Map = compose(
   withGoogleMap
 )(props => {
   return (
-    <GoogleMap
-      className="map"
-      defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-      //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
-      zoom={props.state.zoom}
-    >
-      <Marker
-        key="1"
-        position={{
-          lat: props.state.newLatitude,
-          lng: props.state.newLongitude
-        }}
-      />
-    </GoogleMap>
+    <div>
+      {props.state.location && (
+        <GoogleMap
+          className="map"
+          defaultCenter={{
+            lat: Number(props.state.location.lat),
+            lng: Number(props.state.location.lng)
+          }}
+          zoom={props.state.zoom}
+        >
+          <Marker
+            key="1"
+            position={{
+              lat: Number(props.state.location.lat),
+              lng: Number(props.state.location.lng)
+            }}
+          />
+        </GoogleMap>
+      )}
+    </div>
   );
 });
 
 class ViewSlipway extends Component {
   state = {
-    location: {
-      lat: 51.5074,
-      lng: 0.1278
-    },
     zoom: 3,
+    id: this.props.id
   };
 
-  componentDidMount() {
-
-    // const slipwayId = this.props. 
-
-    // const slipwayLat = this.props. 
-
-    this.setState({
-      location: {
-        lat: 51.5074,
-        lng: 0.1278
-      },
-      zoom: 8
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.latLngsArray !== this.state.latLngsArray
-      || nextProps.latLngsObj !== this.state.latLngsObj
-      || nextProps.slipwayDetails !== this.state.slipwayDetails) {
-      this.setState({ 
-        latLngsArray: nextProps.latLngsArray,
-        latLngsObj: nextProps.latLngsObj,
-        slipwayDetails: nextProps.slipwayDetails
-       });
+    if (
+      nextProps.latLngArray !== this.state.latLngArray ||
+      nextProps.slipwayDetails !== this.state.slipwayDetails 
+    ) {
+      this.setState({
+        latLngArray: nextProps.latLngArray,
+        slipwayDetails: nextProps.slipwayDetails,
+        zoom: 12,
+        location: {
+          lat: nextProps.latLngArray[0],
+          lng: nextProps.latLngArray[1]
+        }
+      });
     }
   }
 
   render() {
     return (
       <div>
-        <Map
-          className="new-slipway-map"
-          state={this.state}
-        />
+        <Map className="new-slipway-map" state={this.state} />
         <ViewSlipwayForm state={this.state} />
       </div>
     );

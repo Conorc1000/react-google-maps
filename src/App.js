@@ -12,13 +12,10 @@ import ViewSlipway from "./components/ViewSlipway";
 import About from "./components/About";
 import Contact from "./components/Contact";
 
-import { 
-  BrowserRouter as Router,
-  Route, 
-} from 'react-router-dom';
-import {firebase, database} from './firebase'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { firebase, database } from "./firebase";
 
-import * as routes from "./constants/routes"
+import * as routes from "./constants/routes";
 
 class App extends Component {
   constructor(props) {
@@ -26,99 +23,88 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      latLngsArray:[],
-      latLngsObj:{},
-    }
+      latLngsArray: [],
+      latLngsObj: {}
+    };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     firebase.auth.onAuthStateChanged(authUser => {
       authUser
-        ? this.setState({authUser})
-        : this.setState({authorUser: null})
-    })
+        ? this.setState({ authUser })
+        : this.setState({ authorUser: null });
+    });
 
     database.getLatLngsSnapshot(latLngsObj => {
-
       let latLngsArray = [];
 
       for (var LatLngKey in latLngsObj) {
-        latLngsArray.push(latLngsObj[LatLngKey])
+        latLngsArray.push(latLngsObj[LatLngKey]);
       }
 
       this.setState({
         latLngsObj,
-        latLngsArray,
-      })
+        latLngsArray
+      });
     });
 
     database.getSlipwayDetailsSnapshot(slipwayDetails => {
       this.setState({
         slipwayDetails
-      })
-
+      });
     });
-
   }
 
-  render () {
+  render() {
     return (
       <Router>
         <div>
           <Header authUser={this.state.authUser} />
-      
+
           <Route
-            exact path = {routes.LANDING}
-            render={()=><Landing 
-              latLngsObj = {this.state.latLngsObj}
-              latLngsArray={this.state.latLngsArray}
-              slipwayDetails = {this.state.slipwayDetails}
-            />}
+            exact
+            path={routes.LANDING}
+            render={() => (
+              <Landing
+                latLngsObj={this.state.latLngsObj}
+                latLngsArray={this.state.latLngsArray}
+                slipwayDetails={this.state.slipwayDetails}
+              />
+            )}
           />
+          <Route exact path={routes.SIGN_UP} component={SignUp} />
+          <Route exact path={routes.SIGN_IN} component={SignIn} />
           <Route
-            exact path = {routes.SIGN_UP}
-            component={SignUp}
-          />
-          <Route
-            exact path = {routes.SIGN_IN}
-            component={SignIn}
-          />
-          <Route
-            exact path = {routes.PASSWORD_FORGET}
+            exact
+            path={routes.PASSWORD_FORGET}
             component={PasswordForget}
           />
+          <Route exact path={routes.ACCOUNT} component={Account} />
+          <Route exact path={routes.NEW_SLIPWAY} component={NewSlipway} />
+          <Route 
+            exact path={routes.EDIT_SLIPWAY} 
+            render={props => (
+              <EditSlipway 
+                
+              />
+            )}
+            component={EditSlipway} 
+            />
           <Route
-            exact path = {routes.ACCOUNT}
-            component={Account}
+            exact path={routes.VIEW_SLIPWAY}
+            render={props => (
+              <ViewSlipway
+                id={props.match.params.id}
+                latLngArray={this.state.latLngsObj[props.match.params.id]}
+                slipwayDetails={this.state.slipwayDetails}
+              />
+            )}
           />
-          <Route
-            exact path = {routes.NEW_SLIPWAY}
-            component={NewSlipway}
-          />
-          <Route
-            exact path = {routes.EDIT_SLIPWAY}
-            component={EditSlipway}
-          />
-           <Route
-            exact path = {routes.VIEW_SLIPWAY}
-            match = {this.state.match}
-            render={()=><ViewSlipway 
-              match = {this.state.match}
-              latLngsObj = {this.state.latLngsObj}
-              latLngsArray={this.state.latLngsArray}
-              slipwayDetails = {this.state.slipwayDetails}
-            />}
-          />
-          <Route
-            exact path = {routes.ABOUT}
-            component={About}
-          />
-          <Route
-            exact path = {routes.CONTACT}
-            component={Contact}
-          />
+          <Route exact path={routes.ABOUT} component={About} />
+          <Route exact path={routes.CONTACT} component={Contact} />
         </div>
-      </Router>)
+      </Router>
+    );
   }
 }
 export default App;
