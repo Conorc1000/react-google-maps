@@ -26,7 +26,7 @@ const Map = compose(
         onClick={props.setLatLngFromMapClick}
         className="map"
         defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-        //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
+        center= {{ lat: props.state.location.lat, lng: props.state.location.lng }}
         zoom={props.state.zoom}
       >     
         <Marker 
@@ -54,8 +54,8 @@ class NewSlipway extends Component {
   
     setLatLngFromMapClick = (event) => {
       this.setState({
-        newLatitude: event.latLng.lat(),
-        newLongitude: event.latLng.lng()
+        newLatitude: Number(event.latLng.lat()),
+        newLongitude: Number(event.latLng.lng())
       })
     }
 

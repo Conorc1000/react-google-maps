@@ -17,9 +17,14 @@ const schema = Joi.object().keys({
     .min(3)
     .max(100)
     .required(),
-  suitability: Joi.string()
-    .min(3)
-    .max(100)
+  suitability: Joi.string().required(),
+  latitude: Joi.number()
+    .min(-90)
+    .max(90)
+    .required(),
+  longitude: Joi.number()
+    .min(-180)
+    .max(180)
     .required()
 });
 
@@ -30,27 +35,59 @@ const API_URL =
 
 const INITIAL_STATE = {
   newSlipway: {
-    suitablity: null,
-    name: ''
-   }
-}
+    name: "",
+    suitability: "",
+    latitude: 0,
+    longitude: 0
+  }
+};
 
 class NewSlipwayForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = { ...INITIAL_STATE};
+    this.state = { ...INITIAL_STATE };
   }
 
   formIsValid() {
     const slipway = {
       name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability
+      suitability: this.state.newSlipway.suitability,
+      latitude: this.state.newSlipway.latitude,
+      longitude: this.state.newSlipway.longitude
     };
     const result = Joi.validate(slipway, schema);
 
-    console.log("result.error", result.error)
+    if (
+      this.props.state.newLatitude === 0 &&
+      this.props.state.newLongitude === 0
+    ) {
+      return false;
+    }
+
+    console.log("result.error", result.error);
 
     return !result.error;
+  }
+
+  reasonNotValid() {
+    const slipway = {
+      name: this.state.newSlipway.name,
+      suitability: this.state.newSlipway.suitability,
+      latitude: this.state.newSlipway.latitude,
+      longitude: this.state.newSlipway.longitude
+    };
+    const result = Joi.validate(slipway, schema);
+
+    if (
+      this.props.state.newLatitude === 0 &&
+      this.props.state.newLongitude === 0
+    ) {
+      return "Latitude and Longitude cant both be 0";
+    }
+
+    console.log("result.error", result.error);
+
+    return result.error.toString()
   }
 
   formSubmitted = event => {
@@ -88,28 +125,26 @@ class NewSlipwayForm extends Component {
   valueChanged = event => {
     const { name, value } = event.target;
 
-    this.setState((prevState) => {
-      return ({
-      newSlipway: {
-        ...prevState.newSlipway,
-        [name]: value
-      }
-      })
+    this.setState(prevState => {
+      return {
+        newSlipway: {
+          ...prevState.newSlipway,
+          [name]: value
+        }
+      };
     });
   };
 
   render() {
-   
     return (
-
       <Card>
         <CardBody>
           <CardTitle>Add a new slipway</CardTitle>
-          
+
           {!this.sendingMessage && !this.sentMessage ? (
             <Form onSubmit={this.formSubmitted}>
               <FormGroup>
-                <Label for="name">Slipway Name</Label>
+                <Label for="name">Slipway Name*</Label>
                 <Input
                   type="text"
                   name="name"
@@ -119,23 +154,23 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="latitude">Latitude</Label>
+                <Label for="latitude">Latitude* (click on map)</Label>
                 <Input
                   type="text"
                   name="latitude"
                   id="latitude"
-                  placeholder="click on map or type here"
+                  placeholder="click on map"
                   onChange={this.valueChanged}
                   value={this.props.state.newLatitude}
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="longitude">Longitude</Label>
+                <Label for="longitude">Longitude* (click on map)</Label>
                 <Input
                   type="text"
                   name="longitude"
                   id="longitude"
-                  placeholder="click on map or type here"
+                  placeholder="click on map"
                   onChange={this.valueChanged}
                   value={this.props.state.newLongitude}
                 />
@@ -202,7 +237,7 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="suitability">Select Suitability</Label>
+                <Label for="suitability">Select Suitability*</Label>
                 <Input
                   type="select"
                   name="suitability"
@@ -284,16 +319,24 @@ class NewSlipwayForm extends Component {
                   onChange={this.valueChanged}
                 />
               </FormGroup>
-              <Button type="submit" color={this.formIsValid() ? 'success' : 'warning'} disabled={!this.formIsValid()}>
-                {this.formIsValid() ? 'Submit' : 'Cant Submit'} 
-              </Button>
+              {this.formIsValid() ? (
+                <Button type="submit" color="success">
+                  Submit
+                </Button>
+              ) : (
+                <div>
+                  <Button type="submit" color="warning" disabled="true">
+                    Cant Submit
+                  </Button>
+                  <p>{this.reasonNotValid()}</p>
+                </div>
+              )}
             </Form>
           ) : (
             <img src={ripple} alt="logo" />
           )}
-
         </CardBody>
-      </Card>  
+      </Card>
     );
   }
 }

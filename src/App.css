@@ -40,12 +40,19 @@ body {
   cursor: crosshair;
 }
 
+.form-bottom-margin {
+  margin-bottom: 20px
+}
+
+.slipway-img-max-width-height {
+  max-width: 80vw;
+  max-height: 50vh;
+}
 
 form {
   max-width: 500px;
 }
 
-.card{
+.card {
   margin: 10px
 }
-
