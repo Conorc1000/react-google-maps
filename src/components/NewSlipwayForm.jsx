@@ -329,7 +329,11 @@ class NewSlipwayForm extends Component {
                     Cant Submit
                   </Button>
                   <p>
-                    {this.reasonNotValid().replace(/(child |\[|\])*/gm, "")}
+                    Validation Error:
+                    {this.reasonNotValid().replace(
+                      /(ValidationError:|child |\[|\])*/gm,
+                      ""
+                    )}
                   </p>
                 </div>
               )}
