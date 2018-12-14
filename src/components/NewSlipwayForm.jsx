@@ -87,7 +87,7 @@ class NewSlipwayForm extends Component {
 
     console.log("result.error", result.error);
 
-    return result.error.toString()
+    return result.error.toString();
   }
 
   formSubmitted = event => {
@@ -328,7 +328,9 @@ class NewSlipwayForm extends Component {
                   <Button type="submit" color="warning" disabled="true">
                     Cant Submit
                   </Button>
-                  <p>{this.reasonNotValid()}</p>
+                  <p>
+                    {this.reasonNotValid().replace(/(child |\[|\])*/gm, "")}
+                  </p>
                 </div>
               )}
             </Form>
