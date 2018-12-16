@@ -19,7 +19,7 @@ const INITIAL_STATE = {
   imgs: []
 };
 
-class NewSlipwayForm extends Component {
+class ViewSlipwayForm extends Component {
   constructor(props) {
     super(props);
     this.next = this.next.bind(this);
@@ -75,27 +75,61 @@ class NewSlipwayForm extends Component {
   }
 
   render() {
-    const slides = this.state.imgs.map(item => {
-      return (
-        <CarouselItem
-          onExiting={this.onExiting}
-          onExited={this.onExited}
-          key={item.src}
+
+    let carousel;
+   
+    if (this.state.imgs) {
+
+      let slides = this.state.imgs.map(item => {
+        return (
+          <CarouselItem
+            onExiting={this.onExiting}
+            onExited={this.onExited}
+            key={item.src}
+          >
+            <img
+              src={item.src}
+              alt={item.altText}
+              className="slipway-img-max-width-height"
+            />
+            <CarouselCaption />
+          </CarouselItem>
+        );
+      });
+
+      carousel = <div className="form-bottom-margin slipway-img-max-width-height">
+        <Carousel
+          activeIndex={this.state.activeIndex}
+          next={this.next}
+          previous={this.previous}
         >
-          <img
-            src={item.src}
-            alt={item.altText}
-            className="slipway-img-max-width-height"
+          <CarouselIndicators
+            items={this.state.imgs}
+            activeIndex={this.state.activeIndex}
+            onClickHandler={this.goToIndex}
           />
-          <CarouselCaption />
-        </CarouselItem>
-      );
-    });
+          {slides}
+          <CarouselControl
+            direction="prev"
+            directionText="Previous"
+            onClickHandler={this.previous}
+          />
+          <CarouselControl
+            direction="next"
+            directionText="Next"
+            onClickHandler={this.next}
+          />
+        </Carousel>
+      </div>
+      
+    } else {
+      carousel = <div></div>;
+    }
+
     return (
       <Card>
         <CardBody>
           <CardTitle>Slipway Name: {this.state.slipwayDetail.Name}</CardTitle>
-
           <a href={this.state.editUrl}>
             <Button color="warning" className="form-bottom-margin">
               Edit Slipway Information
@@ -107,29 +141,9 @@ class NewSlipwayForm extends Component {
           <p>
             <b>Longitude:</b> {this.state.latLngArray[1]}
           </p>
+
           <div className="form-bottom-margin slipway-img-max-width-height">
-            <Carousel
-              activeIndex={this.state.activeIndex}
-              next={this.next}
-              previous={this.previous}
-            >
-              <CarouselIndicators
-                items={this.state.imgs}
-                activeIndex={this.state.activeIndex}
-                onClickHandler={this.goToIndex}
-              />
-              {slides}
-              <CarouselControl
-                direction="prev"
-                directionText="Previous"
-                onClickHandler={this.previous}
-              />
-              <CarouselControl
-                direction="next"
-                directionText="Next"
-                onClickHandler={this.next}
-              />
-            </Carousel>
+           
           </div>
           <p>
             <b>Description:</b>
@@ -175,4 +189,4 @@ class NewSlipwayForm extends Component {
   }
 }
 
-export default NewSlipwayForm;
+export default ViewSlipwayForm;
