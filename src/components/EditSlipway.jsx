@@ -22,36 +22,34 @@ const Map = compose(
   withGoogleMap
 )(props => {
   return (
-    <GoogleMap
-      onClick={props.setLatLngFromMapClick}
-      className="map"
-      defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-      //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
-      zoom={props.state.zoom}
-    >
-      <Marker
-        key="1"
-        position={{
-          lat: props.state.newLatitude,
-          lng: props.state.newLongitude
-        }}
-      />
-    </GoogleMap>
+    <div>
+      {props.state.location && (
+        <GoogleMap
+          // onClick={props.setLatLngFromMapClick}
+          className="map"
+          defaultCenter={{
+            lat: Number(props.state.location.lat),
+            lng: Number(props.state.location.lng)
+          }}
+          zoom={props.state.zoom}
+        >
+          <Marker
+            key="1"
+            position={{
+              lat: Number(props.state.location.lat),
+              lng: Number(props.state.location.lat)
+            }}
+          />
+        </GoogleMap>
+      )}
+    </div>
   );
 });
 
 class EditSlipway extends Component {
   state = {
-    location: {
-      lat: 51.5074,
-      lng: 0.1278
-    },
-    haveUsersLocation: false,
     zoom: 3,
-    sendingMessage: false,
-    sentMessage: false,
-    newLatitude: 0,
-    newLongitude: 0
+    id: this.props.id
   };
 
   setLatLngFromMapClick = event => {
@@ -61,32 +59,21 @@ class EditSlipway extends Component {
     });
   };
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState({
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          },
-          haveUsersLocation: true,
-          zoom: 6
-        });
-      },
-      () => {
-        fetch("https://ipapi.co/json")
-          .then(res => res.json())
-          .then(location => {
-            this.setState({
-              location: {
-                lat: location.latitude,
-                lng: location.longitude
-              },
-              zoom: 5
-            });
-          });
-      }
-    );
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.latLngArray !== this.state.latLngArray ||
+      nextProps.slipwayDetails !== this.state.slipwayDetails
+    ) {
+      this.setState({
+        latLngArray: nextProps.latLngArray,
+        slipwayDetails: nextProps.slipwayDetails,
+        zoom: 12,
+        location: {
+          lat: nextProps.latLngArray[0],
+          lng: nextProps.latLngArray[1]
+        }
+      });
+    }
   }
 
   render() {
@@ -95,7 +82,6 @@ class EditSlipway extends Component {
         <Map
           className="new-slipway-map"
           state={this.state}
-          setLatLngFromMapClick={this.setLatLngFromMapClick}
         />
         <EditSlipwayForm state={this.state} />
       </div>

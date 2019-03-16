@@ -85,11 +85,12 @@ class App extends Component {
             exact path={routes.EDIT_SLIPWAY} 
             render={props => (
               <EditSlipway 
-                
+                id={props.match.params.id}
+                latLngArray={this.state.latLngsObj[props.match.params.id]}
+                slipwayDetails={this.state.slipwayDetails}
               />
             )}
-            component={EditSlipway} 
-            />
+          />
           <Route
             exact path={routes.VIEW_SLIPWAY}
             render={props => (

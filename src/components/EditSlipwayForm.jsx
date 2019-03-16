@@ -29,26 +29,37 @@ const API_URL =
     : "production-url-here";
 
 const INITIAL_STATE = {
-  newSlipway: {
-    suitablity: null,
-    name: ''
-   }
-}
+    slipwayDetail: {},
+    latLngArray: ["", ""],
+    activeIndex: 0,
+    activeTab: "1",
+    imgs: []
+};
 
-class NewSlipwayForm extends Component {
-  constructor(props){
+class EditSlipwayForm extends Component {
+  constructor(props) {
     super(props);
-    this.state = { ...INITIAL_STATE};
+    this.state = { ...INITIAL_STATE };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.state.slipwayDetails !== this.state.slipwayDetails) {
+      this.setState({
+        slipwayDetail: nextProps.state.slipwayDetails[this.props.state.id],
+        latLngArray: nextProps.state.latLngArray,
+        zoom: 12,
+      
+        loadingInfo: false
+      });
+    }
   }
 
   formIsValid() {
     const slipway = {
-      name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability
+      name: this.state.slipwayDetail.name,
+      suitability: this.state.slipwayDetail.suitability
     };
     const result = Joi.validate(slipway, schema);
-
-    console.log("result.error", result.error)
 
     return !result.error;
   }
@@ -56,15 +67,16 @@ class NewSlipwayForm extends Component {
   formSubmitted = event => {
     event.preventDefault();
     const userSlipway = {
-      name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability,
+      name: this.state.slipwayDetail.name,
+      suitability: this.state.slipwayDetail.suitability,
       latitude: this.state.location.lat,
       longitude: this.state.location.lng
     };
 
     if (this.formIsValid()) {
       this.setState({
-        sendingMessage: true
+        sendingMessage: true,
+        loadingInfo: true
       });
       fetch(API_URL, {
         method: "POST",
@@ -88,25 +100,23 @@ class NewSlipwayForm extends Component {
   valueChanged = event => {
     const { name, value } = event.target;
 
-    this.setState((prevState) => {
-      return ({
-      newSlipway: {
-        ...prevState.newSlipway,
-        [name]: value
-      }
-      })
+    this.setState(prevState => {
+      return {
+        slipwayDetail: {
+          ...prevState.slipwayDetail,
+          [name]: value
+        }
+      };
     });
   };
 
   render() {
-   
     return (
-
       <Card>
         <CardBody>
           <CardTitle>Edit slipway</CardTitle>
-          
-          {!this.sendingMessage && !this.sentMessage ? (
+
+          {!this.sendingMessage && !this.sentMessage && !this.loadlingInfo ? (
             <Form onSubmit={this.formSubmitted}>
               <FormGroup>
                 <Label for="name">Slipway Name</Label>
@@ -116,6 +126,7 @@ class NewSlipwayForm extends Component {
                   id="name"
                   placeholder="eg The Great Valley Slipway"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Name}
                 />
               </FormGroup>
               <FormGroup>
@@ -126,7 +137,7 @@ class NewSlipwayForm extends Component {
                   id="latitude"
                   placeholder="click on map or type here"
                   onChange={this.valueChanged}
-                  value={this.props.state.newLatitude}
+                  value={this.state.slatLngArray[0]}
                 />
               </FormGroup>
               <FormGroup>
@@ -137,7 +148,7 @@ class NewSlipwayForm extends Component {
                   id="longitude"
                   placeholder="click on map or type here"
                   onChange={this.valueChanged}
-                  value={this.props.state.newLongitude}
+                  value={this.state.slatLngArray[0]}
                 />
               </FormGroup>
               <FormGroup>
@@ -284,18 +295,21 @@ class NewSlipwayForm extends Component {
                   onChange={this.valueChanged}
                 />
               </FormGroup>
-              <Button type="submit" color={this.formIsValid() ? 'success' : 'warning'} disabled={!this.formIsValid()}>
-                {this.formIsValid() ? 'Submit' : 'Cant Submit'} 
+              <Button
+                type="submit"
+                color={this.formIsValid() ? "success" : "warning"}
+                disabled={!this.formIsValid()}
+              >
+                {this.formIsValid() ? "Submit" : "Cant Submit"}
               </Button>
             </Form>
           ) : (
             <img src={ripple} alt="logo" />
           )}
-
         </CardBody>
-      </Card>  
+      </Card>
     );
   }
 }
 
-export default NewSlipwayForm;
+export default EditSlipwayForm;
