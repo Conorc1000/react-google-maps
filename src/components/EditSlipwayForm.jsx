@@ -48,7 +48,7 @@ class EditSlipwayForm extends Component {
         slipwayDetail: nextProps.state.slipwayDetails[this.props.state.id],
         latLngArray: nextProps.state.latLngArray,
         zoom: 12,
-      
+
         loadingInfo: false
       });
     }
@@ -137,7 +137,7 @@ class EditSlipwayForm extends Component {
                   id="latitude"
                   placeholder="click on map or type here"
                   onChange={this.valueChanged}
-                  value={this.state.slatLngArray[0]}
+                  value={this.state.latLngArray[0]}
                 />
               </FormGroup>
               <FormGroup>
@@ -148,7 +148,7 @@ class EditSlipwayForm extends Component {
                   id="longitude"
                   placeholder="click on map or type here"
                   onChange={this.valueChanged}
-                  value={this.state.slatLngArray[0]}
+                  value={this.state.latLngArray[0]}
                 />
               </FormGroup>
               <FormGroup>
@@ -159,27 +159,30 @@ class EditSlipwayForm extends Component {
                   id="description"
                   placeholder=""
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Description}
                   rows="3"
                 />
               </FormGroup>
               <FormGroup>
                 <Label for="directions">Directions</Label>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="directions"
                   id="directions"
                   placeholder=""
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Directions}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for="facilities">Facilities</Label>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="facilities"
                   id="facilities"
                   placeholder="eg Public Bathrooms"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Facilities}
                 />
               </FormGroup>
               <FormGroup>
@@ -190,6 +193,7 @@ class EditSlipwayForm extends Component {
                   id="navigational-hazards"
                   placeholder=""
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.NavigationalHazards}
                 />
               </FormGroup>
               <FormGroup>
@@ -200,6 +204,7 @@ class EditSlipwayForm extends Component {
                   id="charges"
                   placeholder="eg £5 per launch"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Charges}
                 />
               </FormGroup>
               <FormGroup>
@@ -210,6 +215,7 @@ class EditSlipwayForm extends Component {
                   id="ramp-type"
                   placeholder="eg Concrete"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.RampType}
                 />
               </FormGroup>
               <FormGroup>
@@ -219,6 +225,7 @@ class EditSlipwayForm extends Component {
                   name="suitability"
                   id="suitability"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Suitability}
                 >
                   <option value="unknown">Unkown</option>
                   <option value="portable">Portable Only</option>
@@ -233,6 +240,7 @@ class EditSlipwayForm extends Component {
                   name="ramp-length"
                   id="ramp-length"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.RampLength}
                 >
                   <option value="Unknown">Unkown</option>
                   <option value="No Ramp">No Ramp</option>
@@ -250,6 +258,7 @@ class EditSlipwayForm extends Component {
                   name="upper-area"
                   id="upper-area"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.UpperArea}
                 >
                   <option value="Unknown">Unkown</option>
                   <option value="Sand">Sand</option>
@@ -266,6 +275,7 @@ class EditSlipwayForm extends Component {
                   name="lower-area"
                   id="lower-area"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.LowerArea}
                 >
                   <option value="Unknown">Unkown</option>
                   <option value="Sand">Sand</option>
@@ -283,6 +293,7 @@ class EditSlipwayForm extends Component {
                   id="phone-number"
                   placeholder="eg 079101....."
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.PhoneNumber}
                 />
               </FormGroup>
               <FormGroup>
@@ -293,6 +304,7 @@ class EditSlipwayForm extends Component {
                   id="email"
                   placeholder="eg name@domain.com"
                   onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Email}
                 />
               </FormGroup>
               <Button

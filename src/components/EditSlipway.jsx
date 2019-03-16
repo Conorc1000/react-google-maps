@@ -25,7 +25,7 @@ const Map = compose(
     <div>
       {props.state.location && (
         <GoogleMap
-          // onClick={props.setLatLngFromMapClick}
+          onClick={props.setLatLngFromMapClick}
           className="map"
           defaultCenter={{
             lat: Number(props.state.location.lat),
@@ -37,7 +37,7 @@ const Map = compose(
             key="1"
             position={{
               lat: Number(props.state.location.lat),
-              lng: Number(props.state.location.lat)
+              lng: Number(props.state.location.lng)
             }}
           />
         </GoogleMap>
