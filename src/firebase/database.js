@@ -39,3 +39,29 @@ export const updateLatLng = (latLng, callback) =>
         callback()
       }
     });
+
+// export const createSlipwayDetails = (slipwayDetails, callback) => 
+//   database.ref('slipwayDetails/')
+//     .create(slipwayDetails
+//     , function(error) {
+//       if (error) {
+//         console.log("failed to save Details")
+//         callback(null, error)
+//       } else {
+//         console.log("Details saved successfully!")
+//         callback()
+//       }
+//     });
+
+// export const createLatLng = (latLng, callback) => 
+//   database.ref('latLngs/')
+//     .create([latLng.lat, latLng.lng, latLng.idKey]
+//     , function(error) {
+//       if (error) {
+//         console.log("failed to save lat lng")
+//         callback(null, error)
+//       } else {
+//         console.log("Lat lng saved successfully!")
+//         callback()
+//       }
+//     });

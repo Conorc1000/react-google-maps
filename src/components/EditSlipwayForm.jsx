@@ -193,7 +193,6 @@ class EditSlipwayForm extends Component {
               >
                 reset pin location
               </Button> 
-              <br></br>
               <FormGroup>
                 <Label for="description">Description</Label>
                 <Input

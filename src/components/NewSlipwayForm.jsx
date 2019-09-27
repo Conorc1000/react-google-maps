@@ -11,6 +11,8 @@ import {
 } from "reactstrap";
 import ripple from "../Ripple-2.5s-200px(Red).svg";
 import Joi from "joi";
+import { updateSlipwayDetails, updateLatLng, getLatLngsSnapshot } from "../firebase/database";
+
 
 const schema = Joi.object().keys({
   name: Joi.string()
@@ -28,15 +30,10 @@ const schema = Joi.object().keys({
     .required()
 });
 
-const API_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000/api/v1/slipways"
-    : "production-url-here";
-
 const INITIAL_STATE = {
   newSlipway: {
-    name: "",
-    suitability: "",
+    Name: "",
+    Suitability: "",
     latitude: 0,
     longitude: 0
   }
@@ -50,8 +47,8 @@ class NewSlipwayForm extends Component {
 
   formIsValid() {
     const slipway = {
-      name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability,
+      name: this.state.newSlipway.Name,
+      suitability: this.state.newSlipway.Suitability,
       latitude: this.state.newSlipway.latitude,
       longitude: this.state.newSlipway.longitude
     };
@@ -64,15 +61,13 @@ class NewSlipwayForm extends Component {
       return false;
     }
 
-    console.log("result.error", result.error);
-
     return !result.error;
   }
 
   reasonNotValid() {
     const slipway = {
-      name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability,
+      name: this.state.newSlipway.Name,
+      suitability: this.state.newSlipway.Suitability,
       latitude: this.state.newSlipway.latitude,
       longitude: this.state.newSlipway.longitude
     };
@@ -85,46 +80,68 @@ class NewSlipwayForm extends Component {
       return "Latitude and Longitude cant both be 0";
     }
 
-    console.log("result.error", result.error);
-
     return result.error.toString();
   }
 
   formSubmitted = event => {
+
     event.preventDefault();
-    const userSlipway = {
-      name: this.state.newSlipway.name,
-      suitability: this.state.newSlipway.suitability,
-      latitude: this.state.location.lat,
-      longitude: this.state.location.lng
-    };
 
     if (this.formIsValid()) {
       this.setState({
         sendingMessage: true
       });
-      fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(userSlipway)
-      })
-        .then(res => res.json())
-        .then(message => {
-          setTimeout(() => {
+
+      getLatLngsSnapshot ((x, err) => {
+
+        const largestKey = Object.keys(x).reduce((a, b) => a > b ? a : b)
+
+        const thisKey = Number(largestKey) + 1
+        console.log("thisKey",thisKey)
+
+        const newSlipwayDetails = {
+          Name: this.state.newSlipway.Name || null,
+          Suitability: this.state.newSlipway.Suitability|| null,
+          idKey: this.state.newSlipway.idKey || null,
+          Charges: this.state.newSlipway.Charges || null,
+          Directions: this.state.newSlipway.Directions || null,
+          Facilities: this.state.newSlipway.Facilities || null,
+          LowerArea: this.state.newSlipway.LowerArea || null,
+          NavigationalHazards: this.state.newSlipway.NavigationalHazards || null,
+          NearestPlace: this.state.newSlipway.NearestPlace || null,
+          RampDescription: this.state.newSlipway.RampDescription || null,
+          RampLength: this.state.newSlipway.RampLength || null,
+          RampType: this.state.newSlipway.RampType || null,
+          UpperArea: this.state.newSlipway.UpperArea || null,
+          Website: this.state.newSlipway.Website || null,
+          Email: this.state.newSlipway.Email || null,
+          PhoneNumber: this.state.newSlipway.PhoneNumber || null,
+          idKey:thisKey
+        };
+
+        const newLatLng = {
+          idKey: thisKey,
+          lat: this.props.state.newLatitude, 
+          lng: this.props.state.newLongitude
+        }
+      
+        updateSlipwayDetails(newSlipwayDetails, (x, err) => {
+          updateLatLng(newLatLng, (x, err) => {
+      
             this.setState({
               sendingMessage: false,
-              sentMessage: true
+              loadingInfo: false
             });
-          }, 2000);
-        });
+
+          })
+        })
+      })
+
     }
   };
 
   valueChanged = event => {
     const { name, value } = event.target;
-
     this.setState(prevState => {
       return {
         newSlipway: {
@@ -147,7 +164,7 @@ class NewSlipwayForm extends Component {
                 <Label for="name">Slipway Name*</Label>
                 <Input
                   type="text"
-                  name="name"
+                  name="Name"
                   id="name"
                   placeholder="eg The Great Valley Slipway"
                   onChange={this.valueChanged}
@@ -179,7 +196,7 @@ class NewSlipwayForm extends Component {
                 <Label for="description">Description</Label>
                 <Input
                   type="textarea"
-                  name="description"
+                  name="Description"
                   id="description"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -190,7 +207,7 @@ class NewSlipwayForm extends Component {
                 <Label for="directions">Directions</Label>
                 <Input
                   type="text"
-                  name="directions"
+                  name="Directions"
                   id="directions"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -200,7 +217,7 @@ class NewSlipwayForm extends Component {
                 <Label for="facilities">Facilities</Label>
                 <Input
                   type="text"
-                  name="facilities"
+                  name="Facilities"
                   id="facilities"
                   placeholder="eg Public Bathrooms"
                   onChange={this.valueChanged}
@@ -210,7 +227,7 @@ class NewSlipwayForm extends Component {
                 <Label for="navigational-hazards">Navigational Hazards</Label>
                 <Input
                   type="text"
-                  name="navigational-hazards"
+                  name="NavigationalHazards"
                   id="navigational-hazards"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -220,7 +237,7 @@ class NewSlipwayForm extends Component {
                 <Label for="charges">Charges</Label>
                 <Input
                   type="text"
-                  name="charges"
+                  name="Charges"
                   id="charges"
                   placeholder="eg £5 per launch"
                   onChange={this.valueChanged}
@@ -230,7 +247,7 @@ class NewSlipwayForm extends Component {
                 <Label for="ramp-type">Ramp Type</Label>
                 <Input
                   type="text"
-                  name="ramp-type"
+                  name="RampType"
                   id="ramp-type"
                   placeholder="eg Concrete"
                   onChange={this.valueChanged}
@@ -240,7 +257,7 @@ class NewSlipwayForm extends Component {
                 <Label for="suitability">Select Suitability*</Label>
                 <Input
                   type="select"
-                  name="suitability"
+                  name="Suitability"
                   id="suitability"
                   onChange={this.valueChanged}
                 >
@@ -254,7 +271,7 @@ class NewSlipwayForm extends Component {
                 <Label for="ramp-length">Ramp Length</Label>
                 <Input
                   type="select"
-                  name="ramp-length"
+                  name="RampLength"
                   id="ramp-length"
                   onChange={this.valueChanged}
                 >
@@ -271,7 +288,7 @@ class NewSlipwayForm extends Component {
                 <Label for="upper-area">Upper Area</Label>
                 <Input
                   type="select"
-                  name="upper-area"
+                  name="UpperArea"
                   id="upper-area"
                   onChange={this.valueChanged}
                 >
@@ -287,7 +304,7 @@ class NewSlipwayForm extends Component {
                 <Label for="lower-area">Lower Area</Label>
                 <Input
                   type="select"
-                  name="lower-area"
+                  name="LowerArea"
                   id="lower-area"
                   onChange={this.valueChanged}
                 >
@@ -303,7 +320,7 @@ class NewSlipwayForm extends Component {
                 <Label for="phone-number">Phone Number</Label>
                 <Input
                   type="text"
-                  name="phone-number"
+                  name="PhoneNumber"
                   id="phone-number"
                   placeholder="eg 079101....."
                   onChange={this.valueChanged}
@@ -313,7 +330,7 @@ class NewSlipwayForm extends Component {
                 <Label for="email">Email</Label>
                 <Input
                   type="text"
-                  name="email"
+                  name="Email"
                   id="email"
                   placeholder="eg name@domain.com"
                   onChange={this.valueChanged}
