@@ -45,15 +45,18 @@ class EditSlipwayForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.state.slipwayDetails !== this.state.slipwayDetails) {
 
-      console.log(nextProps.state.slipwayDetails[this.props.state.id])
+    if (nextProps.state.slipwayDetails !== this.state.slipwayDetails ) {
+
       this.setState({
         slipwayDetail: nextProps.state.slipwayDetails[this.props.state.id],
         latLngArray: nextProps.state.latLngArray,
         zoom: 12,
-
         loadingInfo: false
+      });
+    } else if (nextProps.editedLatLng !== this.props.editedLatLng) {
+      this.setState({
+        editedLatLng: nextProps.editedLatLng
       });
     }
   }
@@ -61,16 +64,13 @@ class EditSlipwayForm extends Component {
   formIsValid() {
     const slipway = {
       Name: this.state.slipwayDetail.Name,
-      // suitability: this.state.slipwayDetail.suitability
     };
     const result = Joi.validate(slipway, schema);
-    //console.log(result.error)
     return !result.error;
   }
 
   formSubmitted = event => {
 
-    console.log(this.state.location)
     event.preventDefault();
 
     if (this.formIsValid()) {
@@ -101,8 +101,8 @@ class EditSlipwayForm extends Component {
 
       const updatedLatLng = {
         idKey: this.state.slipwayDetail.idKey || null,
-        lat: this.state.latLngArray[0],
-        lng: this.state.latLngArray[1]
+        lat: this.props.editedLatLng[0] || this.state.latLngArray[0],
+        lng: this.props.editedLatLng[1] || this.state.latLngArray[1]
       }
   
 
@@ -134,31 +134,18 @@ class EditSlipwayForm extends Component {
     });
   };
 
-  latChanged = event => {
-    const {value } = event.target;
-    this.setState(prevState => {
-      return {
-        latLngArray: [
-          value,
-          prevState.latLngArray[1],
-          prevState.latLngArray[2],
-        ]
-      };
-    });
-  };
+  // resetPin = () => {
 
-  lngChanged = event => {
-    const {value } = event.target;
-    this.setState(prevState => {
-      return {
-        latLngArray: [
-          prevState.latLngArray[0],
-          value,
-          prevState.latLngArray[2],
-        ]
-      };
-    });
-  };
+  //   console.log("reset")
+
+  //   this.setState(prevState => {
+  //     return {
+        
+  //       }
+      
+  //   });
+  // };
+
 
   render() {
     return (
@@ -175,32 +162,38 @@ class EditSlipwayForm extends Component {
                   name="Name"
                   id="name"
                   placeholder="eg The Great Valley Slipway"
-                  onChange={this.valueChanged}
                   value={this.state.slipwayDetail.Name}
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="latitude">Latitude</Label>
+                <Label for="latitude">Latitude (click on map to edit)</Label>
                 <Input
                   type="text"
                   name="Latitude"
                   id="latitude"
-                  placeholder="click on map or type here"
-                  onChange={this.latChanged}
-                  value={this.state.latLngArray[0]}
+                  placeholder="click on map"
+                  disabled
+                  value={this.props.editedLatLng[0] || this.state.latLngArray[0]}
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="longitude">Longitude</Label>
+                <Label for="longitude">Longitude (click on map to edit)</Label>
                 <Input
                   type="text"
                   name="Longitude"
                   id="longitude"
-                  placeholder="click on map or type here"
+                  placeholder="click on map"
+                  disabled
                   onChange={this.lngChanged}
-                  value={this.state.latLngArray[1]}
+                  value={this.props.editedLatLng[1] || this.state.latLngArray[1]}
                 />
               </FormGroup>
+              <Button
+                onClick={this.props.resetPin}
+              >
+                reset pin location
+              </Button> 
+              <br></br>
               <FormGroup>
                 <Label for="description">Description</Label>
                 <Input

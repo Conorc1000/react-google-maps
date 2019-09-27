@@ -25,7 +25,7 @@ const Map = compose(
   }),
   withHandlers({
     onMarkerClusterClick: () => markerClusterer => {
-      const clickedMarkers = markerClusterer.getMarkers();
+      markerClusterer.getMarkers();
     }
   }),
   withStateHandlers(
@@ -69,9 +69,7 @@ const Map = compose(
                     {props.state.slipwayDetails[latLng[2]] && (
                       <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
                     )}
-                    {/* <p>Lat: {latLng[0]}</p>
-                    <p>Long: {latLng[1]}</p> */}
-
+           
                     {props.state.slipwayDetails[latLng[2]] &&
                       props.state.slipwayDetails[latLng[2]].imgs && (
                         <p>

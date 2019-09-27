@@ -1,4 +1,4 @@
-import { compose, withProps } from "recompose";
+import { compose, withProps, withState, withHandlers } from "recompose";
 import React, { Component } from "react";
 import EditSlipwayForm from "./EditSlipwayForm";
 
@@ -10,7 +10,7 @@ import {
 } from "react-google-maps";
 import {} from "reactstrap";
 
-const Map = compose(
+const MapAndForm = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyBdQLHKZ070yXyixJJGT8WG6FVY9Rlyc8Q&?v=3.exp&libraries=geometry,drawing,places",
@@ -18,14 +18,27 @@ const Map = compose(
     containerElement: <div style={{ height: "60vh" }} />,
     mapElement: <div style={{ height: "60vh" }} />
   }),
+  withState('editedLatLng', 'updateLatLng', []),
+  withHandlers({
+    onClick: ({updateLatLng}) => (e) => {
+      updateLatLng(editedLatLng => {
+        return [ e.latLng.lat(), e.latLng.lng()]
+      })
+    },
+    resetPin:({updateLatLng}) => () => {
+      updateLatLng(editedLatLng => {
+        return []
+      })
+    }
+  }),
   withScriptjs,
   withGoogleMap
-)(props => {
+)((props) => {
   return (
     <div>
       {props.state.location && (
         <GoogleMap
-          onClick={props.setLatLngFromMapClick}
+          onClick={props.onClick}
           className="map"
           defaultCenter={{
             lat: Number(props.state.location.lat),
@@ -36,12 +49,13 @@ const Map = compose(
           <Marker
             key="1"
             position={{
-              lat: Number(props.state.location.lat),
-              lng: Number(props.state.location.lng)
+              lat: Number(props.editedLatLng[0]) || Number(props.state.location.lat),
+              lng: Number(props.editedLatLng[1]) || Number(props.state.location.lng)
             }}
           />
         </GoogleMap>
       )}
+      <EditSlipwayForm state={props.state} editedLatLng ={props.editedLatLng} resetPin={props.resetPin} />
     </div>
   );
 });
@@ -49,24 +63,16 @@ const Map = compose(
 class EditSlipway extends Component {
   state = {
     zoom: 3,
-    id: this.props.id
-  };
-
-  setLatLngFromMapClick = event => {
-
-    console.log(event)
-    
-    this.setState({
-      latLngArray: [event.latLng.lat(), event.latLng.lng()]
-      
-    });
+    id: this.props.id,
   };
 
   componentWillReceiveProps(nextProps) {
+    
     if (
       nextProps.latLngArray !== this.state.latLngArray ||
       nextProps.slipwayDetails !== this.state.slipwayDetails
     ) {
+
       this.setState({
         latLngArray: nextProps.latLngArray,
         slipwayDetails: nextProps.slipwayDetails,
@@ -82,11 +88,11 @@ class EditSlipway extends Component {
   render() {
     return (
       <div>
-        <Map
+        <MapAndForm
           className="new-slipway-map"
           state={this.state}
+
         />
-        <EditSlipwayForm state={this.state} />
       </div>
     );
   }
