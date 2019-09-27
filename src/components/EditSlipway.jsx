@@ -15,8 +15,8 @@ const Map = compose(
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyBdQLHKZ070yXyixJJGT8WG6FVY9Rlyc8Q&?v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: "100vh" }} />,
-    containerElement: <div style={{ height: "50vh" }} />,
-    mapElement: <div style={{ height: "50vh" }} />
+    containerElement: <div style={{ height: "60vh" }} />,
+    mapElement: <div style={{ height: "60vh" }} />
   }),
   withScriptjs,
   withGoogleMap
@@ -53,9 +53,12 @@ class EditSlipway extends Component {
   };
 
   setLatLngFromMapClick = event => {
+
+    console.log(event)
+    
     this.setState({
-      newLatitude: event.latLng.lat(),
-      newLongitude: event.latLng.lng()
+      latLngArray: [event.latLng.lat(), event.latLng.lng()]
+      
     });
   };
 

@@ -4,9 +4,9 @@ const helmet = require("helmet");
 const cors = require("cors");
 var aws = require('aws-sdk');
 
-var app = express();
-app.use(express.static('www'));
-app.set('port', process.env.PORT || 5000);
+let expressApp = express();
+expressApp.use(express.static('www'));
+expressApp.set('port', process.env.PORT || 5000);
 
 var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 console.log(AWS_SECRET_KEY);
@@ -16,16 +16,16 @@ const middlewares = require("./middlewares");
 const api = require("./api");
 const app = express();
 
-app.use(morgan("dev"));
-app.use(helmet());
-app.use(express.json());
-app.use(cors());
+expressApp.use(morgan("dev"));
+expressApp.use(helmet());
+expressApp.use(express.json());
+expressApp.use(cors());
 
-app.listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'));
+expressApp.listen(app.get('port'), function () {
+  console.log('Express server listening on port ' + expressApp.get('port'));
 });
 
-app.get('/sign_s3', function (req, res) {
+expressApp.get('/sign_s3', function (req, res) {
   console.log('query========================>>>>>>>>>>>>', req.query);
   console.log(AWS_SECRET_KEY);
   aws.config.update({
@@ -55,15 +55,15 @@ app.get('/sign_s3', function (req, res) {
   });
 });
 
-app.get("/", (req, res) => {
+expressApp.get("/", (req, res) => {
   res.json({
     message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄"
   });
 });
 
-app.use("/api/v1", api);
+expressApp.use("/api/v1", api);
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+expressApp.use(middlewares.notFound);
+expressApp.use(middlewares.errorHandler);
 
-module.exports = app;
+module.exports = expressApp;

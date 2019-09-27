@@ -31,9 +31,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res, next) => {
-  console.log("req", req);
-  console.log("res", res);
-  console.log("next", next);
 
   const result = Joi.validate(req.body, schema);
   if (result.error === null) {
@@ -49,6 +46,9 @@ router.post("/", (req, res, next) => {
     console.log("slipway", slipway);
 
     slipways.insert(slipway).then(insertedSlipway => {
+
+      console.log("insertedSlipway", insertedSlipway);
+
       res.json(insertedSlipway);
     });
   } else {

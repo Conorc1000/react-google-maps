@@ -13,3 +13,29 @@ export const getSlipwayDetailsSnapshot = (callback) =>
     .then((snapshot) => {
       callback(snapshot.val());
     });
+
+export const updateSlipwayDetails = (slipwayDetails, callback) => 
+  database.ref('slipwayDetails/'+ slipwayDetails.idKey)
+    .update(slipwayDetails
+    , function(error) {
+      if (error) {
+        console.log("failed to save Details")
+        callback(null, error)
+      } else {
+        console.log("Details saved successfully!")
+        callback()
+      }
+    });
+
+export const updateLatLng = (latLng, callback) => 
+  database.ref('latLngs/'+ latLng.idKey)
+    .update([latLng.lat, latLng.lng, latLng.idKey]
+    , function(error) {
+      if (error) {
+        console.log("failed to save lat lng")
+        callback(null, error)
+      } else {
+        console.log("Lat lng saved successfully!")
+        callback()
+      }
+    });

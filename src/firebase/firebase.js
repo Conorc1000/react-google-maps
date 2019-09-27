@@ -14,7 +14,7 @@ const prodConfig = {
 const devConfig = {
     apiKey: 'AIzaSyCjgMvefIiKOgRjTXrTiGIUPSoVHqo5fQE',
     authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: "https://boatlaunch.firebaseio.com/",
+    databaseURL: "https://boatlaunch-test-data.firebaseio.com/",
     projectId: "firebase-boatlaunch",
     storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: "6821003494",

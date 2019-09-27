@@ -11,16 +11,18 @@ import {
 } from "reactstrap";
 import ripple from "../Ripple-2.5s-200px(Red).svg";
 import Joi from "joi";
+import { updateSlipwayDetails, updateLatLng } from "../firebase/database";
+//import firebase from 
 
 const schema = Joi.object().keys({
-  name: Joi.string()
+  Name: Joi.string()
     .min(3)
     .max(100)
     .required(),
-  suitability: Joi.string()
-    .min(3)
-    .max(100)
-    .required()
+  // suitability: Joi.string()
+  //   .min(3)
+  //   .max(100)
+  //   .required()
 });
 
 const API_URL =
@@ -44,6 +46,8 @@ class EditSlipwayForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.state.slipwayDetails !== this.state.slipwayDetails) {
+
+      console.log(nextProps.state.slipwayDetails[this.props.state.id])
       this.setState({
         slipwayDetail: nextProps.state.slipwayDetails[this.props.state.id],
         latLngArray: nextProps.state.latLngArray,
@@ -56,44 +60,64 @@ class EditSlipwayForm extends Component {
 
   formIsValid() {
     const slipway = {
-      name: this.state.slipwayDetail.name,
-      suitability: this.state.slipwayDetail.suitability
+      Name: this.state.slipwayDetail.Name,
+      // suitability: this.state.slipwayDetail.suitability
     };
     const result = Joi.validate(slipway, schema);
-
+    //console.log(result.error)
     return !result.error;
   }
 
   formSubmitted = event => {
+
+    console.log(this.state.location)
     event.preventDefault();
-    const userSlipway = {
-      name: this.state.slipwayDetail.name,
-      suitability: this.state.slipwayDetail.suitability,
-      latitude: this.state.location.lat,
-      longitude: this.state.location.lng
-    };
 
     if (this.formIsValid()) {
       this.setState({
         sendingMessage: true,
         loadingInfo: true
       });
-      fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(userSlipway)
+
+      const updatedSlipwayDetails = {
+        Name: this.state.slipwayDetail.Name || null,
+        Suitability: this.state.slipwayDetail.Suitability|| null,
+        idKey: this.state.slipwayDetail.idKey || null,
+        Charges: this.state.slipwayDetail.Charges || null,
+        Directions: this.state.slipwayDetail.Directions || null,
+        Facilities: this.state.slipwayDetail.Facilities || null,
+        LowerArea: this.state.slipwayDetail.LowerArea || null,
+        NavigationalHazards: this.state.slipwayDetail.NavigationalHazards || null,
+        NearestPlace: this.state.slipwayDetail.NearestPlace || null,
+        RampDescription: this.state.slipwayDetail.RampDescription || null,
+        RampLength: this.state.slipwayDetail.RampLength || null,
+        RampType: this.state.slipwayDetail.RampType || null,
+        UpperArea: this.state.slipwayDetail.UpperArea || null,
+        Website: this.state.slipwayDetail.Website || null,
+        Email: this.state.slipwayDetail.Email || null,
+        PhoneNumber: this.state.slipwayDetail.PhoneNumber || null,
+      };
+
+
+      const updatedLatLng = {
+        idKey: this.state.slipwayDetail.idKey || null,
+        lat: this.state.latLngArray[0],
+        lng: this.state.latLngArray[1]
+      }
+  
+
+      updateSlipwayDetails(updatedSlipwayDetails, (x, err) => {
+        console.log("callback called")
+        
+        updateLatLng(updatedLatLng, (x, err) => {
+        
+          this.setState({
+            sendingMessage: false,
+            loadingInfo: false
+          });
+
+        })
       })
-        .then(res => res.json())
-        .then(message => {
-          setTimeout(() => {
-            this.setState({
-              sendingMessage: false,
-              sentMessage: true
-            });
-          }, 2000);
-        });
     }
   };
 
@@ -110,6 +134,32 @@ class EditSlipwayForm extends Component {
     });
   };
 
+  latChanged = event => {
+    const {value } = event.target;
+    this.setState(prevState => {
+      return {
+        latLngArray: [
+          value,
+          prevState.latLngArray[1],
+          prevState.latLngArray[2],
+        ]
+      };
+    });
+  };
+
+  lngChanged = event => {
+    const {value } = event.target;
+    this.setState(prevState => {
+      return {
+        latLngArray: [
+          prevState.latLngArray[0],
+          value,
+          prevState.latLngArray[2],
+        ]
+      };
+    });
+  };
+
   render() {
     return (
       <Card>
@@ -122,7 +172,7 @@ class EditSlipwayForm extends Component {
                 <Label for="name">Slipway Name</Label>
                 <Input
                   type="text"
-                  name="name"
+                  name="Name"
                   id="name"
                   placeholder="eg The Great Valley Slipway"
                   onChange={this.valueChanged}
@@ -133,10 +183,10 @@ class EditSlipwayForm extends Component {
                 <Label for="latitude">Latitude</Label>
                 <Input
                   type="text"
-                  name="latitude"
+                  name="Latitude"
                   id="latitude"
                   placeholder="click on map or type here"
-                  onChange={this.valueChanged}
+                  onChange={this.latChanged}
                   value={this.state.latLngArray[0]}
                 />
               </FormGroup>
@@ -144,22 +194,22 @@ class EditSlipwayForm extends Component {
                 <Label for="longitude">Longitude</Label>
                 <Input
                   type="text"
-                  name="longitude"
+                  name="Longitude"
                   id="longitude"
                   placeholder="click on map or type here"
-                  onChange={this.valueChanged}
-                  value={this.state.latLngArray[0]}
+                  onChange={this.lngChanged}
+                  value={this.state.latLngArray[1]}
                 />
               </FormGroup>
               <FormGroup>
                 <Label for="description">Description</Label>
                 <Input
                   type="textarea"
-                  name="description"
+                  name="RampDescription"
                   id="description"
                   placeholder=""
                   onChange={this.valueChanged}
-                  value={this.state.slipwayDetail.Description}
+                  value={this.state.slipwayDetail.RampDescription}
                   rows="3"
                 />
               </FormGroup>
@@ -167,7 +217,7 @@ class EditSlipwayForm extends Component {
                 <Label for="directions">Directions</Label>
                 <Input
                   type="textarea"
-                  name="directions"
+                  name="Directions"
                   id="directions"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -178,7 +228,7 @@ class EditSlipwayForm extends Component {
                 <Label for="facilities">Facilities</Label>
                 <Input
                   type="textarea"
-                  name="facilities"
+                  name="Facilities"
                   id="facilities"
                   placeholder="eg Public Bathrooms"
                   onChange={this.valueChanged}
@@ -189,7 +239,7 @@ class EditSlipwayForm extends Component {
                 <Label for="navigational-hazards">Navigational Hazards</Label>
                 <Input
                   type="text"
-                  name="navigational-hazards"
+                  name="Navigational-hazards"
                   id="navigational-hazards"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -200,7 +250,7 @@ class EditSlipwayForm extends Component {
                 <Label for="charges">Charges</Label>
                 <Input
                   type="text"
-                  name="charges"
+                  name="Charges"
                   id="charges"
                   placeholder="eg £5 per launch"
                   onChange={this.valueChanged}
@@ -211,7 +261,7 @@ class EditSlipwayForm extends Component {
                 <Label for="ramp-type">Ramp Type</Label>
                 <Input
                   type="text"
-                  name="ramp-type"
+                  name="RampType"
                   id="ramp-type"
                   placeholder="eg Concrete"
                   onChange={this.valueChanged}
@@ -222,7 +272,7 @@ class EditSlipwayForm extends Component {
                 <Label for="suitability">Select Suitability</Label>
                 <Input
                   type="select"
-                  name="suitability"
+                  name="Suitability"
                   id="suitability"
                   onChange={this.valueChanged}
                   value={this.state.slipwayDetail.Suitability}
@@ -237,7 +287,7 @@ class EditSlipwayForm extends Component {
                 <Label for="ramp-length">Ramp Length</Label>
                 <Input
                   type="select"
-                  name="ramp-length"
+                  name="RampLength"
                   id="ramp-length"
                   onChange={this.valueChanged}
                   value={this.state.slipwayDetail.RampLength}
@@ -255,7 +305,7 @@ class EditSlipwayForm extends Component {
                 <Label for="upper-area">Upper Area</Label>
                 <Input
                   type="select"
-                  name="upper-area"
+                  name="UpperArea"
                   id="upper-area"
                   onChange={this.valueChanged}
                   value={this.state.slipwayDetail.UpperArea}
@@ -272,7 +322,7 @@ class EditSlipwayForm extends Component {
                 <Label for="lower-area">Lower Area</Label>
                 <Input
                   type="select"
-                  name="lower-area"
+                  name="LowerArea"
                   id="lower-area"
                   onChange={this.valueChanged}
                   value={this.state.slipwayDetail.LowerArea}
@@ -289,7 +339,7 @@ class EditSlipwayForm extends Component {
                 <Label for="phone-number">Phone Number</Label>
                 <Input
                   type="text"
-                  name="phone-number"
+                  name="PhoneNumber"
                   id="phone-number"
                   placeholder="eg 079101....."
                   onChange={this.valueChanged}
@@ -300,19 +350,30 @@ class EditSlipwayForm extends Component {
                 <Label for="email">Email</Label>
                 <Input
                   type="text"
-                  name="email"
+                  name="Email"
                   id="email"
                   placeholder="eg name@domain.com"
                   onChange={this.valueChanged}
                   value={this.state.slipwayDetail.Email}
                 />
               </FormGroup>
+              <FormGroup>
+                <Label for="website">Website</Label>
+                <Input
+                  type="text"
+                  name="Website"
+                  id="website"
+                  placeholder="eg www.marina.com"
+                  onChange={this.valueChanged}
+                  value={this.state.slipwayDetail.Website}
+                />
+              </FormGroup>
               <Button
                 type="submit"
                 color={this.formIsValid() ? "success" : "warning"}
-                disabled={!this.formIsValid()}
+                disabled={!this.formIsValid() || this.state.sendingMessage}
               >
-                {this.formIsValid() ? "Submit" : "Cant Submit"}
+                {this.formIsValid() || this.state.sendingMessage ? "Submit" : "Cant Submit"}
               </Button>
             </Form>
           ) : (
