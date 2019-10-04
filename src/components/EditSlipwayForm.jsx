@@ -18,11 +18,7 @@ const schema = Joi.object().keys({
   Name: Joi.string()
     .min(3)
     .max(100)
-    .required(),
-  // suitability: Joi.string()
-  //   .min(3)
-  //   .max(100)
-  //   .required()
+    .required()
 });
 
 const API_URL =
@@ -134,19 +130,6 @@ class EditSlipwayForm extends Component {
     });
   };
 
-  // resetPin = () => {
-
-  //   console.log("reset")
-
-  //   this.setState(prevState => {
-  //     return {
-        
-  //       }
-      
-  //   });
-  // };
-
-
   render() {
     return (
       <Card>
@@ -191,7 +174,7 @@ class EditSlipwayForm extends Component {
               <Button
                 onClick={this.props.resetPin}
               >
-                reset pin location
+                Revert pin location
               </Button> 
               <FormGroup>
                 <Label for="description">Description</Label>
