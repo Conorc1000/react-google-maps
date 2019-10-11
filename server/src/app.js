@@ -29,8 +29,8 @@ expressApp.get('/sign_s3', function (req, res) {
   console.log('query========================>>>>>>>>>>>>', req.query);
 
   aws.config.update({
-    accessKeyId: 'AKIAJ37FIF773HO2ZVWA',
-    secretAccessKey: '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'
+    accessKeyId: 
+    secretAccessKey: 
   });
   var s3 = new aws.S3();
   var s3_params = {
