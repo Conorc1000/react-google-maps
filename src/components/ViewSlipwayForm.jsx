@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import fetchImgsService from "../services/fetchImgsService";
+import imgUploadService from "../services/imgUploadService";
+import { updateSlipwayDetails } from "../firebase/database";
+
 import {
   Button,
   Card,
@@ -51,6 +54,50 @@ class ViewSlipwayForm extends Component {
         editUrl: "/edit-slipway/" + nextProps.state.latLngArray[2]
       });
     }
+  }
+
+  imgUpload = (event) => {
+
+    var uploadMsgDiv = document.getElementById('upload-msg-div');
+
+    var fileChooser = document.getElementById('file-chooser');
+
+    var file = fileChooser.files[0];
+
+    var slipway = this.state.slipwayDetail
+
+    if (!slipway.imgs) {
+      slipway.imgs = [];
+    }
+
+    
+    if(!file)
+    {
+      alert('No image selected to upload. Please choose file first.')
+      return;
+    } else {
+
+      if(file.size > 20971520) {
+        alert('File too large. Please upload an image of less than 20Mb');
+        return;
+      }
+
+      var newImgId = "New" + Date.now();
+
+      uploadMsgDiv.innerHTML = '';
+
+      imgUploadService(file, uploadMsgDiv, newImgId, (err) => {
+
+        slipway.imgs.push(newImgId);
+        
+        updateSlipwayDetails(slipway, (x, err) => {
+          console.log("callback called")
+        });
+
+      });
+
+    }
+    
   }
 
   onExiting() {
@@ -180,6 +227,23 @@ class ViewSlipwayForm extends Component {
                         Edit Slipway Information
                       </Button>
                     </a>
+
+                    <br></br>
+                    <p>
+                      Choose an image to upload
+                    </p>
+
+                    <input type="file" id="file-chooser" />
+
+                    <Button onClick={this.imgUpload} color="warning" className="form-bottom-margin">
+                      Upload Image
+                    </Button>
+
+                    <div id="upload-msg-div"> </div>
+
+
+                    <br></br>
+                    <br></br>
                     <p>
                       <b>Latitude:</b> {this.state.latLngArray[0]}
                     </p>
