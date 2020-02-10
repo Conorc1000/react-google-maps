@@ -11,6 +11,7 @@ import EditSlipway from "./components/EditSlipway";
 import ViewSlipway from "./components/ViewSlipway";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Stations from "./tidal-stations"
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { firebase, database } from "./firebase";

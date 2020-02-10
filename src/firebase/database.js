@@ -20,7 +20,7 @@ export const updateSlipwayDetails = (slipwayDetails, callback) =>
     , function(error) {
       if (error) {
         console.log("failed to save Details")
-        callback(null, error)
+        callback(error, null)
       } else {
         console.log("Details saved successfully!")
         callback()

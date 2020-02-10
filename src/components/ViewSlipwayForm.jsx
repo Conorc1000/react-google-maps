@@ -53,6 +53,50 @@ class ViewSlipwayForm extends Component {
     }
   }
 
+  imgUpload = (event) => {
+
+    var uploadMsgDiv = document.getElementById('upload-msg-div');
+
+    var fileChooser = document.getElementById('file-chooser');
+
+    var file = fileChooser.files[0];
+
+    var slipway = this.state.slipwayDetail
+
+    if (!slipway.imgs) {
+      slipway.imgs = [];
+    }
+
+
+    if(!file)
+    {
+      alert('No image selected to upload. Please choose file first.')
+      return;
+    } else {
+
+      if(file.size > 20971520) {
+        alert('File too large. Please upload an image of less than 20Mb');
+        return;
+      }
+
+      var newImgId = "New" + Date.now();
+
+      uploadMsgDiv.innerHTML = '';
+
+      imgUploadService(file, uploadMsgDiv, newImgId, (err) => {
+
+        slipway.imgs.push(newImgId);
+
+        updateSlipwayDetails(slipway, (err) => {
+          console.log("callback called")
+        });
+
+      });
+
+    }
+
+  }
+
   onExiting() {
     this.animating = true;
   }
@@ -109,7 +153,6 @@ class ViewSlipwayForm extends Component {
               alt={item.altText}
               className="slipway-img"
             />
-            <CarouselCaption />
           </CarouselItem>
         );
       });
@@ -154,16 +197,6 @@ class ViewSlipwayForm extends Component {
                 }}
               >
                 Slipway Info
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: this.state.activeTab === "2" })}
-                onClick={() => {
-                  this.toggle("2");
-                }}
-              >
-                Tidal Info
               </NavLink>
             </NavItem>
           </Nav>
@@ -226,15 +259,6 @@ class ViewSlipwayForm extends Component {
                     <p>
                       <b>Email:</b> {this.state.slipwayDetail.Email}
                     </p>
-                  </CardBody>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane tabId="2">
-              <Row>
-                <Col sm="12">
-                  <CardBody>
-                    <CardTitle>Tidal Info: </CardTitle>
                   </CardBody>
                 </Col>
               </Row>
