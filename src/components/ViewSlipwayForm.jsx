@@ -1,5 +1,10 @@
+react-google-maps/src/components/ViewSlipwayForm.jsx
+
 import React, { Component } from "react";
 import fetchImgsService from "../services/fetchImgsService";
+import imgUploadService from "../services/imgUploadService";
+import { updateSlipwayDetails } from "../firebase/database";
+
 import {
   Button,
   Card,
@@ -87,7 +92,7 @@ class ViewSlipwayForm extends Component {
 
         slipway.imgs.push(newImgId);
 
-        updateSlipwayDetails(slipway, (err) => {
+        updateSlipwayDetails(slipway, (x, err) => {
           console.log("callback called")
         });
 
@@ -153,6 +158,7 @@ class ViewSlipwayForm extends Component {
               alt={item.altText}
               className="slipway-img"
             />
+            <CarouselCaption />
           </CarouselItem>
         );
       });
@@ -199,6 +205,16 @@ class ViewSlipwayForm extends Component {
                 Slipway Info
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "2" })}
+                onClick={() => {
+                  this.toggle("2");
+                }}
+              >
+                Tidal Info
+              </NavLink>
+            </NavItem>
           </Nav>
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
@@ -213,6 +229,23 @@ class ViewSlipwayForm extends Component {
                         Edit Slipway Information
                       </Button>
                     </a>
+
+                    <br></br>
+                    <p>
+                      Choose an image to upload
+                    </p>
+
+                    <input type="file" id="file-chooser" />
+
+                    <Button onClick={this.imgUpload} color="warning" className="form-bottom-margin">
+                      Upload Image
+                    </Button>
+
+                    <div id="upload-msg-div"> </div>
+
+
+                    <br></br>
+                    <br></br>
                     <p>
                       <b>Latitude:</b> {this.state.latLngArray[0]}
                     </p>
@@ -259,6 +292,15 @@ class ViewSlipwayForm extends Component {
                     <p>
                       <b>Email:</b> {this.state.slipwayDetail.Email}
                     </p>
+                  </CardBody>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="2">
+              <Row>
+                <Col sm="12">
+                  <CardBody>
+                    <CardTitle>Tidal Info: </CardTitle>
                   </CardBody>
                 </Col>
               </Row>
