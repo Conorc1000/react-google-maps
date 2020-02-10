@@ -6,6 +6,7 @@
     "aws-sdk": "^2.542.0",
     "bootstrap": "^4.1.3",
     "cors": "^2.8.4",
+    "dotenv": "^8.1.0",
     "firebase": "^5.5.8",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

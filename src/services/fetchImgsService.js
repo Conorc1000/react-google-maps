@@ -3,7 +3,9 @@ const fetchImgsService = (imgIds) => {
     var prefix = "https://s3-eu-west-1.amazonaws.com/boatlaunchslipwayphotos/WebSitePhotos/";
     var suffix = "___Source.jpg";
 
-    var getUrls = function (imgIds) {
+    var getUrls = function (imgIds){
+        console.log("imgIds", imgIds)
+         
         if (!imgIds) {
             return;
         }

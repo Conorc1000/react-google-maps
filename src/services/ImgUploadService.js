@@ -23,46 +23,6 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
       params: { Bucket: albumBucketName }
     });
 
-
-    var albumPhotosKey = "WebSitePhotos/";
-    // s3.listObjects({ Prefix: albumPhotosKey }, function(err, data) {
-    //   if (err) {
-    //     return alert("There was an error viewing your album: " + err.message);
-    //   }
-
-    //   console.log(data)
-    // })  
-
-    //Use S3 ManagedUpload class as it supports multipart uploads
-
-
-    // console.log("albumBucketName", albumBucketName)
-    // console.log(" albumPhotosKey + newImgId + jpg", albumPhotosKey + newImgId + ".jpg")
-    // console.log("file", file)
-
-    // var upload = new AWS.S3.ManagedUpload({
-    //   params: {
-    //     Bucket: albumBucketName,
-    //     Key: albumPhotosKey + newImgId + ".jpg",
-    //     Body: file,
-    //     ACL: "public-read"
-    //   }
-    // });
-
-    // var promise = upload.promise();
-
-    // promise.then(
-    //   function(data) {
-    //     alert("Successfully uploaded photo.");
-    //     //viewAlbum(albumName);
-    //   },
-    //   function(err) {
-    //     console.log(err)
-    //     return alert("There was an error uploading your photo: ", err.message);
-    //   }
-    // );
-
-
     var xhr = new XMLHttpRequest();
 
     xhr.open("GET", "http://localhost:5000/sign_s3?file_name=" + newImgId + "___Source.jpg" + "&file_type=" + file.type);
@@ -88,6 +48,7 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
       xhr.onload = function(loadResponse) {
         if (xhr.status === 200) {
           uploadMsgDiv.innerHTML = '<h3>File sucessfully uploaded!</h3>';
+          callback()
         }
       };
       xhr.onerror = function() {

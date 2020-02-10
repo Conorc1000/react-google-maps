@@ -90,7 +90,7 @@ class ViewSlipwayForm extends Component {
 
         slipway.imgs.push(newImgId);
         
-        updateSlipwayDetails(slipway, (x, err) => {
+        updateSlipwayDetails(slipway, (err) => {
           console.log("callback called")
         });
 
@@ -156,7 +156,6 @@ class ViewSlipwayForm extends Component {
               alt={item.altText}
               className="slipway-img"
             />
-            <CarouselCaption />
           </CarouselItem>
         );
       });
@@ -201,16 +200,6 @@ class ViewSlipwayForm extends Component {
                 }}
               >
                 Slipway Info
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: this.state.activeTab === "2" })}
-                onClick={() => {
-                  this.toggle("2");
-                }}
-              >
-                Tidal Info
               </NavLink>
             </NavItem>
           </Nav>
@@ -290,15 +279,6 @@ class ViewSlipwayForm extends Component {
                     <p>
                       <b>Email:</b> {this.state.slipwayDetail.Email}
                     </p>
-                  </CardBody>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane tabId="2">
-              <Row>
-                <Col sm="12">
-                  <CardBody>
-                    <CardTitle>Tidal Info: </CardTitle>
                   </CardBody>
                 </Col>
               </Row>

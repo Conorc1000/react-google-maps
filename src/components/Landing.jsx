@@ -10,6 +10,7 @@ import {
 } from "react-google-maps";
 import {} from "reactstrap";
 import { database } from "../firebase";
+import Stations from "../tidal-stations"
 
 const {
   MarkerClusterer
@@ -21,7 +22,7 @@ const Map = compose(
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyBdQLHKZ070yXyixJJGT8WG6FVY9Rlyc8Q&?v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: "100vh" }} />,
     containerElement: <div style={{ height: "90vh" }} />,
-    mapElement: <div style={{ height: "90vh" }} />
+    mapElement: <div style={{ height: "calc(100vh - 56px)" }} />
   }),
   withHandlers({
     onMarkerClusterClick: () => markerClusterer => {
@@ -43,49 +44,74 @@ const Map = compose(
   withScriptjs,
   withGoogleMap
 )(props => {
-  return (
-    <GoogleMap
-      className="map"
-      defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-      //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
-      zoom={props.state.zoom}
-    >
-      {
-        <MarkerClusterer
-          onClick={props.onMarkerClusterClick}
-          averageCenter
-          enableRetinaIcons
-          gridSize={50}
-        >
-          {props.state.latLngsArray.map(latLng => (
-            <Marker
-              key={latLng[2]}
-              position={{ lat: Number(latLng[0]), lng: Number(latLng[1]) }}
-              onClick={() => props.showInfo(latLng[2])}
-            >
-              {props.isOpen && props.infoIndex === latLng[2] && (
-                <InfoWindow onCloseClick={props.showInfo}>
-                  <div>
-                    {props.state.slipwayDetails[latLng[2]] && (
-                      <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
-                    )}
-           
-                    {props.state.slipwayDetails[latLng[2]] &&
-                      props.state.slipwayDetails[latLng[2]].imgs && (
-                        <p>
-                          {props.state.slipwayDetails[latLng[2]].imgs.length} Photos
-                        </p>
+  return ( 
+    <div>
+      <div>
+        
+      </div>
+  
+      <GoogleMap
+        className="map"
+        defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
+        zoom={props.state.zoom}
+      >
+        {
+          <MarkerClusterer
+            onClick={props.onMarkerClusterClick}
+            averageCenter
+            enableRetinaIcons
+            gridSize={20}
+          >
+            {props.state.latLngsArray.map(latLng => (
+              <Marker
+                key={latLng[2]}
+                position={{ lat: Number(latLng[0]), lng: Number(latLng[1]) }}
+                onClick={() => props.showInfo(latLng[2])}
+              >
+                {props.isOpen && props.infoIndex === latLng[2] && ( 
+                  <InfoWindow onCloseClick={props.showInfo}>
+                    <div>
+                      {props.state.slipwayDetails[latLng[2]] && (
+                        <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
                       )}
+            
+                      {props.state.slipwayDetails[latLng[2]] &&
+                        props.state.slipwayDetails[latLng[2]].imgs && (
+                          <p>
+                            {props.state.slipwayDetails[latLng[2]].imgs.length} Photos
+                          </p>
+                        )}
 
-                    <a href={`/view-slipway/` + latLng[2]}>More Information</a>
-                  </div>
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
-        </MarkerClusterer>
-      }
-    </GoogleMap>
+                      <a href={`/view-slipway/` + latLng[2]}>More Information</a>
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+          
+            {Stations.map(ts => (
+              <Marker
+                key={ts.properties.Id}
+                position={{ lat: ts.geometry.coordinates[1], lng: ts.geometry.coordinates[0] }}
+                onClick={() => props.showInfo(ts.properties.Id)}
+                icon='https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+              >
+                {props.isOpen && props.infoIndex === ts.properties.Id && (
+                  <InfoWindow onCloseClick={props.showInfo}>
+                    <div>
+                      {ts.properties.Id && (
+                        <h5>{'Tidal Station: ' + ts.properties.Name }</h5>
+                      )}
+                      <a href={`/view-tidal-staion/` + ts.properties.Id}>See tidal forcast</a>
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+          </MarkerClusterer>
+        }
+      </GoogleMap>
+    </div>
   );
 });
 
