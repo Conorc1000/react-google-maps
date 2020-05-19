@@ -9,7 +9,6 @@ expressApp.use(express.static('www'));
 expressApp.set('port', process.env.PORT || 5000);
 
 var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-console.log(AWS_SECRET_KEY);
 require("dotenv").config();
 
 const middlewares = require("./middlewares");
@@ -65,5 +64,12 @@ expressApp.use("/api/v1", api);
 
 expressApp.use(middlewares.notFound);
 expressApp.use(middlewares.errorHandler);
+
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 module.exports = expressApp;
