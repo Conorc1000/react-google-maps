@@ -12,7 +12,6 @@ import {
 import ripple from "../Ripple-2.5s-200px(Red).svg";
 import Joi from "joi";
 import { updateSlipwayDetails, updateLatLng } from "../firebase/database";
-//import firebase from 
 
 const schema = Joi.object().keys({
   Name: Joi.string()
