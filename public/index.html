@@ -23,18 +23,21 @@
   <!--Firebase auth -->
 
   <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
-  <script>
-    // Initialize Firebase
+  <!-- <script>
+    //Initialize Firebase
     var config = {
       apiKey: "AIzaSyCjgMvefIiKOgRjTXrTiGIUPSoVHqo5fQE",
       authDomain: "boatlaunch.firebaseapp.com",
-      databaseURL: "https://boatlaunch.firebaseio.com",
+      databaseURL: process.env.NODE_ENV === 'production'
+        ? process.env.DATABASE_URL
+        : "https://boatlaunch-test-data.firebaseio.com/",
       projectId: "firebase-boatlaunch",
       storageBucket: "firebase-boatlaunch.appspot.com",
       messagingSenderId: "6821003494"
     };
+
     firebase.initializeApp(config);
-  </script>
+  </script> -->
   <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
   <title>Boatlaunch ⛵️</title>

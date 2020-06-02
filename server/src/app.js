@@ -1,8 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const path = require('path');
+
 const cors = require("cors");
-var aws = require('aws-sdk');
+const aws = require('aws-sdk');
 
 let expressApp = express();
 expressApp.use(express.static('www'));
@@ -20,8 +22,19 @@ expressApp.use(helmet());
 expressApp.use(express.json());
 expressApp.use(cors());
 
+const log = (req, res, next) => {
+  next();
+}
+expressApp.use(log)
+
 expressApp.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + expressApp.get('port'));
+});
+
+expressApp.use(express.static(path.join(__dirname + "/../../", 'build')));
+
+expressApp.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + "/../../", 'build', 'index.html'));
 });
 
 expressApp.get('/sign_s3', function (req, res) {
@@ -54,22 +67,9 @@ expressApp.get('/sign_s3', function (req, res) {
   });
 });
 
-expressApp.get("/", (req, res) => {
-  res.json({
-    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄"
-  });
-});
-
 expressApp.use("/api/v1", api);
 
 expressApp.use(middlewares.notFound);
 expressApp.use(middlewares.errorHandler);
-
-
-app.use(express.static(path.join(__dirname, 'build')));
-
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 module.exports = expressApp;

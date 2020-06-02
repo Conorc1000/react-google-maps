@@ -70,7 +70,7 @@ class Header extends Component {
         return (
             <div>
               <Navbar light>
-                <NavbarBrand href="/" className="mr-auto">Boatlaunch <span role='img'>📐 ⛵️</span> </NavbarBrand>
+                <NavbarBrand href="/" className="mr-auto">Boatlaunch! {process.env.NODE_ENV} <span role='img'>📐 ⛵️</span> </NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!this.state.collapsed} navbar>
                 <div>
