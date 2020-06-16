@@ -1,4 +1,20 @@
+##How to run
+
+The src directory contains the react app. This compiles to the root level build directory.
+
+The server directory contains the BE logic, express server.
+
+Environment Variables are split into two. Development and Production.
+
+In Development the app uses the vars in the .env.development file in the root directory.
+To build the development react app run "npm run build:dev"
+
+In Production the app uses the vars in the .env file in the root directory.
+To build the development react app run "npm run build"
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).

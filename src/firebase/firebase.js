@@ -11,11 +11,6 @@ const config = {
     messagingSenderId: "6821003494",
 };
 
-console.log("process.env.NODE_ENV", process.env.NODE_ENV)
-console.log("ENV", process.env)
-console.log("process.env.REACT_APP_DATABASE_URL", process.env.REACT_APP_DATABASE_URL)
-
-
 if(!firebase.apps.length){
     firebase.initializeApp(config);
 }

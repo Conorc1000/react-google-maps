@@ -51,7 +51,7 @@ const NavigationNonAuth = () => {
 }
 
 class Header extends Component {
-    
+
     constructor(props){
       super(props);
       this.toggleNavbar = this.toggleNavbar.bind(this);
@@ -65,12 +65,12 @@ class Header extends Component {
             collapsed: !this.state.collapsed
         })
     }
-    
+
     render () {
         return (
             <div>
               <Navbar light>
-                <NavbarBrand href="/" className="mr-auto">Boatlaunch! {process.env.NODE_ENV} <span role='img'>📐 ⛵️</span> </NavbarBrand>
+                <NavbarBrand href="/" className="mr-auto">Boatlaunch {process.env.REACT_APP_ENV} <span role='img'>📐 ⛵️</span> </NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!this.state.collapsed} navbar>
                 <div>
