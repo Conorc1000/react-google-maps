@@ -3,7 +3,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 const config = {
-    apiKey:process.env.REACT_APP_API_KEY,
+    apiKey:process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "boatlaunch.firebaseapp.com",
     databaseURL: process.env.REACT_APP_DATABASE_URL,
     projectId: 'firebase-boatlaunch',
