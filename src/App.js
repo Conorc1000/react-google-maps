@@ -11,7 +11,6 @@ import EditSlipway from "./components/EditSlipway";
 import ViewSlipway from "./components/ViewSlipway";
 import About from "./components/About";
 import Contact from "./components/Contact";
-
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { firebase, database } from "./firebase";
 
@@ -81,10 +80,10 @@ class App extends Component {
           />
           <Route exact path={routes.ACCOUNT} component={Account} />
           <Route exact path={routes.NEW_SLIPWAY} component={NewSlipway} />
-          <Route 
-            exact path={routes.EDIT_SLIPWAY} 
+          <Route
+            exact path={routes.EDIT_SLIPWAY}
             render={props => (
-              <EditSlipway 
+              <EditSlipway
                 id={props.match.params.id}
                 latLngArray={this.state.latLngsObj[props.match.params.id]}
                 slipwayDetails={this.state.slipwayDetails}

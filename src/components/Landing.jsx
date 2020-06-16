@@ -21,7 +21,7 @@ const Map = compose(
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyBdQLHKZ070yXyixJJGT8WG6FVY9Rlyc8Q&?v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: "100vh" }} />,
     containerElement: <div style={{ height: "90vh" }} />,
-    mapElement: <div style={{ height: "90vh" }} />
+    mapElement: <div style={{ height: "calc(100vh - 56px)" }} />
   }),
   withHandlers({
     onMarkerClusterClick: () => markerClusterer => {
@@ -44,48 +44,53 @@ const Map = compose(
   withGoogleMap
 )(props => {
   return (
-    <GoogleMap
-      className="map"
-      defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
-      //center=  {{ lat: 51.5074, lng: 0.1278 }} //{{ lat: props.state.location.lat, lng: props.state.location.lng }}
-      zoom={props.state.zoom}
-    >
-      {
-        <MarkerClusterer
-          onClick={props.onMarkerClusterClick}
-          averageCenter
-          enableRetinaIcons
-          gridSize={50}
-        >
-          {props.state.latLngsArray.map(latLng => (
-            <Marker
-              key={latLng[2]}
-              position={{ lat: Number(latLng[0]), lng: Number(latLng[1]) }}
-              onClick={() => props.showInfo(latLng[2])}
-            >
-              {props.isOpen && props.infoIndex === latLng[2] && (
-                <InfoWindow onCloseClick={props.showInfo}>
-                  <div>
-                    {props.state.slipwayDetails[latLng[2]] && (
-                      <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
-                    )}
-           
-                    {props.state.slipwayDetails[latLng[2]] &&
-                      props.state.slipwayDetails[latLng[2]].imgs && (
-                        <p>
-                          {props.state.slipwayDetails[latLng[2]].imgs.length} Photos
-                        </p>
+    <div>
+      <div>
+
+      </div>
+
+      <GoogleMap
+        className="map"
+        defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
+        zoom={props.state.zoom}
+      >
+        {
+          <MarkerClusterer
+            onClick={props.onMarkerClusterClick}
+            averageCenter
+            enableRetinaIcons
+            gridSize={20}
+          >
+            {props.state.latLngsArray.map(latLng => (
+              <Marker
+                key={latLng[2]}
+                position={{ lat: Number(latLng[0]), lng: Number(latLng[1]) }}
+                onClick={() => props.showInfo(latLng[2])}
+              >
+                {props.isOpen && props.infoIndex === latLng[2] && (
+                  <InfoWindow onCloseClick={props.showInfo}>
+                    <div>
+                      {props.state.slipwayDetails[latLng[2]] && (
+                        <h5>{props.state.slipwayDetails[latLng[2]].Name}</h5>
                       )}
 
-                    <a href={`/view-slipway/` + latLng[2]}>More Information</a>
-                  </div>
-                </InfoWindow>
-              )}
-            </Marker>
-          ))}
-        </MarkerClusterer>
-      }
-    </GoogleMap>
+                      {props.state.slipwayDetails[latLng[2]] &&
+                        props.state.slipwayDetails[latLng[2]].imgs && (
+                          <p>
+                            {props.state.slipwayDetails[latLng[2]].imgs.length} Photos
+                          </p>
+                        )}
+
+                      <a href={`/view-slipway/` + latLng[2]}>More Information</a>
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+          </MarkerClusterer>
+        }
+      </GoogleMap>
+    </div>
   );
 });
 
@@ -113,7 +118,7 @@ class LandingPage extends Component {
     if (nextProps.latLngsArray !== this.state.latLngsArray
       || nextProps.latLngsObj !== this.state.latLngsObj
       || nextProps.slipwayDetails !== this.state.slipwayDetails) {
-      this.setState({ 
+      this.setState({
         latLngsArray: nextProps.latLngsArray,
         latLngsObj: nextProps.latLngsObj,
         slipwayDetails: nextProps.slipwayDetails

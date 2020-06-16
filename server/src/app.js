@@ -9,10 +9,6 @@ const aws = require('aws-sdk');
 let expressApp = express();
 expressApp.use(express.static('www'));
 expressApp.set('port', process.env.PORT || 5000);
-
-var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-require("dotenv").config();
-
 const middlewares = require("./middlewares");
 const api = require("./api");
 const app = express();
@@ -38,11 +34,10 @@ expressApp.get('/*', function(req, res) {
 });
 
 expressApp.get('/sign_s3', function (req, res) {
-  console.log('query========================>>>>>>>>>>>>', req.query);
-  console.log(AWS_SECRET_KEY);
+
   aws.config.update({
-    accessKeyId: 'AKIAJ37FIF773HO2ZVWA',
-    secretAccessKey: AWS_SECRET_KEY
+    accessKeyId: process.env.AWS_SECRET_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
   });
   var s3 = new aws.S3();
   var s3_params = {
