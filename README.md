@@ -1,4 +1,4 @@
-##How to run
+## How to run
 
 The src directory contains the react app. This compiles to the root level build directory.
 
