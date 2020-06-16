@@ -33,7 +33,7 @@ expressApp.listen(app.get('port'), function () {
 
 expressApp.use(express.static(path.join(__dirname + "/../../", 'build')));
 
-expressApp.get('/', function(req, res) {
+expressApp.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname + "/../../", 'build', 'index.html'));
 });
 
