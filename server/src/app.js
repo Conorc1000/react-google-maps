@@ -1,5 +1,5 @@
 const express = require("express");
-//const morgan = require("morgan");
+const morgan = require("morgan");
 const helmet = require("helmet");
 const path = require('path');
 
@@ -26,9 +26,9 @@ expressApp.use(helmet());
 expressApp.use(express.json());
 expressApp.use(cors());
 
-// if (isDev ) {
-//   expressApp.use(morgan("dev"));
-// }
+if (isDev ) {
+  expressApp.use(morgan("dev"));
+}
 
 expressApp.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + expressApp.get('port'));
