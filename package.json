@@ -8,6 +8,7 @@
     "cors": "^2.8.4",
     "env-cmd": "^10.1.0",
     "firebase": "^5.5.8",
+    "morgan": "^1.10.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-google-maps": "^9.4.5",
