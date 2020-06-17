@@ -5,7 +5,7 @@ const fetchImgsService = (imgIds) => {
 
     var getUrls = function (imgIds){
         console.log("imgIds", imgIds)
-         
+
         if (!imgIds) {
             return;
         }

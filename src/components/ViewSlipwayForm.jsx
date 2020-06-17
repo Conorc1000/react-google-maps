@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import fetchImgsService from "../services/fetchImgsService";
-import imgUploadService from "../services/imgUploadService";
+import fetchImgsService from "../services/fetch-imgs-service";
+import imgUploadService from "../services/img-upload-service";
 import { updateSlipwayDetails } from "../firebase/database";
 
 import {
@@ -70,7 +70,7 @@ class ViewSlipwayForm extends Component {
       slipway.imgs = [];
     }
 
-    
+
     if(!file)
     {
       alert('No image selected to upload. Please choose file first.')
@@ -89,7 +89,7 @@ class ViewSlipwayForm extends Component {
       imgUploadService(file, uploadMsgDiv, newImgId, (err) => {
 
         slipway.imgs.push(newImgId);
-        
+
         updateSlipwayDetails(slipway, (err) => {
           console.log("callback called")
         });
@@ -97,7 +97,7 @@ class ViewSlipwayForm extends Component {
       });
 
     }
-    
+
   }
 
   onExiting() {

@@ -7,21 +7,28 @@ const cors = require("cors");
 const aws = require('aws-sdk');
 
 let expressApp = express();
-expressApp.use(express.static('www'));
-expressApp.set('port', process.env.PORT || 5000);
+
 const middlewares = require("./middlewares");
 const api = require("./api");
 const app = express();
 
-expressApp.use(morgan("dev"));
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+
+const isDev = process.env.NODE_ENV !== 'production';
+const PORT = process.env.PORT || 5000;
+
+
+expressApp.use(express.static('www'));
+expressApp.set('port', process.env.PORT || 5000);
+
 expressApp.use(helmet());
 expressApp.use(express.json());
 expressApp.use(cors());
 
-const log = (req, res, next) => {
-  next();
+if (isDev ) {
+  expressApp.use(morgan("dev"));
 }
-expressApp.use(log)
 
 expressApp.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + expressApp.get('port'));
@@ -66,5 +73,7 @@ expressApp.use("/api/v1", api);
 
 expressApp.use(middlewares.notFound);
 expressApp.use(middlewares.errorHandler);
+
+
 
 module.exports = expressApp;
