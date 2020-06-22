@@ -70,7 +70,7 @@ class ViewSlipwayForm extends Component {
       slipway.imgs = [];
     }
 
-    
+
     if(!file)
     {
       alert('No image selected to upload. Please choose file first.')
@@ -88,8 +88,10 @@ class ViewSlipwayForm extends Component {
 
       imgUploadService(file, uploadMsgDiv, newImgId, (err) => {
 
+        console.log("newImgId", newImgId)
+
         slipway.imgs.push(newImgId);
-        
+
         updateSlipwayDetails(slipway, (err) => {
           console.log("callback called")
         });
@@ -97,7 +99,7 @@ class ViewSlipwayForm extends Component {
       });
 
     }
-    
+
   }
 
   onExiting() {
@@ -241,8 +243,7 @@ class ViewSlipwayForm extends Component {
                     </p>
                     {carousel}
                     <p>
-                      <b>Description:</b>
-                      {this.state.slipwayDetail.Description}
+                      <b>Description:</b> {this.state.slipwayDetail.RampDescription}
                     </p>
                     <p>
                       <b>Directions:</b> {this.state.slipwayDetail.Directions}

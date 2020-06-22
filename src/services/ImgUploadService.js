@@ -1,23 +1,19 @@
 var AWS = require("aws-sdk");
 
-var albumBucketName = "boatlaunchslipwayphotos";
-var bucketRegion = 'eu-west-1'; //could also be Ireland
+var albumBucketName = process.env.REACT_APP_S3_PHOTOS_BUCKET
+var bucketRegion = process.env.REACT_APP_S3_REGION //could also be Ireland
 var IdentityPoolId = 'eu-west-1:06a62dcc-2d0e-44e3-a400-779cc16b2ef0';
 
 const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
-
-    console.log("file.type", file.type)
-    console.log("uploadMsgDiv", uploadMsgDiv)
-    console.log("newImgId", newImgId)
 
     AWS.config.update({
       region: bucketRegion,
       credentials: new AWS.CognitoIdentityCredentials({
         IdentityPoolId: IdentityPoolId
       }),
-      accessKeyId: 'AKIAJ37FIF773HO2ZVWA'
+      accessKeyId: 'AKIAJEM2Z5AOOKJULVZA'
     });
-    
+
     var s3 = new AWS.S3({
       apiVersion: "2006-03-01",
       params: { Bucket: albumBucketName }
@@ -26,12 +22,15 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
     var xhr = new XMLHttpRequest();
 
     xhr.open("GET", "http://localhost:5000/sign_s3?file_name=" + newImgId + "___Source.jpg" + "&file_type=" + file.type);
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
 
           console.log("xhr.responseText", xhr.responseText)
           var response = JSON.parse(xhr.responseText);
+
+
           upload_file(file, response.signed_request, response.url);
         } else {
           alert("Could not get signed URL.");
