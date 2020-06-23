@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import fetchImgsService from "../services/fetchImgsService";
-import imgUploadService from "../services/imgUploadService";
+import fetchImgsService from "../services/fetch-imgs-service";
+import imgUploadService from "../services/img-upload-service";
 import { updateSlipwayDetails } from "../firebase/database";
 
 import {
