@@ -43,11 +43,7 @@ router.post("/", (req, res, next) => {
       date: new Date()
     };
 
-    console.log("slipway", slipway);
-
     slipways.insert(slipway).then(insertedSlipway => {
-
-      console.log("insertedSlipway", insertedSlipway);
 
       res.json(insertedSlipway);
     });
