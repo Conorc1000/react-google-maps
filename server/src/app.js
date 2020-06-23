@@ -11,15 +11,11 @@ let expressApp = express();
 const middlewares = require("./middlewares");
 const api = require("./api");
 
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-
 expressApp.use(express.static('www'));
-expressApp.set('port', process.env.PORT || 5000);
+expressApp.set('port', PORT);
 
 expressApp.use(helmet());
 expressApp.use(express.json());
@@ -28,14 +24,11 @@ if (isDev ) {
   expressApp.use(morgan("dev"));
 }
 
-var cors = require('cors')
-expressApp.use(cors())
-
 expressApp.listen(express().get('port'), function () {
   console.log('Express server listening on port ' + expressApp.get('port'));
 });
 
-expressApp.get('/sign_s3', function (req, res) {
+expressApp.get('/sign_s3',function (req, res) {
 
   console.log("req.query", req.query)
   aws.config.update({

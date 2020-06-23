@@ -21,7 +21,7 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open("GET", "http://localhost:5000/sign_s3?file_name=" + newImgId + "___Source.jpg" + "&file_type=" + file.type);
+    xhr.open("GET", "/sign_s3?file_name=" + newImgId + "___Source.jpg" + "&file_type=" + file.type);
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
@@ -29,8 +29,6 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
 
           console.log("xhr.responseText", xhr.responseText)
           var response = JSON.parse(xhr.responseText);
-
-
           upload_file(file, response.signed_request, response.url);
         } else {
           alert("Could not get signed URL.");
@@ -46,7 +44,7 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
       xhr.setRequestHeader('x-amz-acl', 'public-read');
       xhr.onload = function(loadResponse) {
         if (xhr.status === 200) {
-          uploadMsgDiv.innerHTML = '<h3>File sucessfully uploaded!</h3>';
+          uploadMsgDiv.innerHTML = '<h4>File sucessfully uploaded!</h4>';
           callback()
         }
       };
