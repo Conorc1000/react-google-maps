@@ -23,7 +23,6 @@ expressApp.set('port', process.env.PORT || 5000);
 
 expressApp.use(helmet());
 expressApp.use(express.json());
-expressApp.use(cors());
 
 if (isDev ) {
   expressApp.use(morgan("dev"));
@@ -31,7 +30,6 @@ if (isDev ) {
 
 var cors = require('cors')
 expressApp.use(cors())
-
 
 expressApp.listen(express().get('port'), function () {
   console.log('Express server listening on port ' + expressApp.get('port'));
