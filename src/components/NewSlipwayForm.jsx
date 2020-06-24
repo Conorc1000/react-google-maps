@@ -80,7 +80,13 @@ class NewSlipwayForm extends Component {
       return "Latitude and Longitude cant both be 0";
     }
 
-    return result.error.toString();
+    console.log("result.error", result.error)
+
+    if( result.error ) {
+      return result.error.toString();
+    } else {
+      return "";
+    }
   }
 
   formSubmitted = event => {
@@ -89,7 +95,7 @@ class NewSlipwayForm extends Component {
 
     if (this.formIsValid()) {
       this.setState({
-        sendingMessage: true
+        sendingSlipway: true
       });
 
       getLatLngsSnapshot ((x, err) => {
@@ -97,7 +103,6 @@ class NewSlipwayForm extends Component {
         const largestKey = Object.keys(x).reduce((a, b) => a > b ? a : b)
 
         const thisKey = Number(largestKey) + 1
-        console.log("thisKey",thisKey)
 
         const newSlipwayDetails = {
           Name: this.state.newSlipway.Name || null,
@@ -121,22 +126,24 @@ class NewSlipwayForm extends Component {
 
         const newLatLng = {
           idKey: thisKey,
-          lat: this.props.state.newLatitude, 
+          lat: this.props.state.newLatitude,
           lng: this.props.state.newLongitude
         }
-      
+
         updateSlipwayDetails(newSlipwayDetails, (x, err) => {
           updateLatLng(newLatLng, (x, err) => {
-      
             this.setState({
-              sendingMessage: false,
-              loadingInfo: false
+              createdSlipwayId: thisKey,
+              sendingSlipway: false
             });
 
+            console.log("this.state", this.state)
+            console.log("this.props.state", this.props.state)
+
+            return;
           })
         })
       })
-
     }
   };
 
@@ -158,10 +165,10 @@ class NewSlipwayForm extends Component {
         <CardBody>
           <CardTitle>Add a new slipway</CardTitle>
 
-          {!this.sendingMessage && !this.sentMessage ? (
+          {!this.state.createdSlipwayId ? (
             <Form onSubmit={this.formSubmitted}>
               <FormGroup>
-                <Label for="name">Slipway Name*</Label>
+                <Label for="name">Slipway Name (Required)*</Label>
                 <Input
                   type="text"
                   name="Name"
@@ -171,7 +178,7 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="latitude">Latitude* (click on map)</Label>
+                <Label for="latitude">Latitude (Required)* (click on map)</Label>
                 <Input
                   type="text"
                   name="latitude"
@@ -182,7 +189,7 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="longitude">Longitude* (click on map)</Label>
+                <Label for="longitude">Longitude (Required)* (click on map)</Label>
                 <Input
                   type="text"
                   name="longitude"
@@ -196,7 +203,7 @@ class NewSlipwayForm extends Component {
                 <Label for="description">Description</Label>
                 <Input
                   type="textarea"
-                  name="Description"
+                  name="RampDescription"
                   id="description"
                   placeholder=""
                   onChange={this.valueChanged}
@@ -254,7 +261,7 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="suitability">Select Suitability*</Label>
+                <Label for="suitability">Select Suitability (Required)*</Label>
                 <Input
                   type="select"
                   name="Suitability"
@@ -336,7 +343,7 @@ class NewSlipwayForm extends Component {
                   onChange={this.valueChanged}
                 />
               </FormGroup>
-              {this.formIsValid() ? (
+              {this.formIsValid() && !this.state.sendingSlipway ? (
                 <Button type="submit" color="success">
                   Submit
                 </Button>
@@ -345,8 +352,8 @@ class NewSlipwayForm extends Component {
                   <Button type="submit" color="warning" disabled="true">
                     Cant Submit
                   </Button>
+
                   <p>
-                    Validation Error:
                     {this.reasonNotValid().replace(
                       /(ValidationError:|child |\[|\])*/gm,
                       ""
@@ -356,12 +363,16 @@ class NewSlipwayForm extends Component {
               )}
             </Form>
           ) : (
-            <img src={ripple} alt="logo" />
+            <div>
+              <h3>Slipway created</h3>
+              <a href={(`/view-slipway/`+ this.state.createdSlipwayId)}>View Slipway</a>
+            </div>
           )}
         </CardBody>
       </Card>
     );
   }
 }
+//<img src={ripple} alt="logo" />
 
 export default NewSlipwayForm;
