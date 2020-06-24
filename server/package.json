@@ -32,6 +32,6 @@
     "nodemon": "^1.18.3",
     "snyk": "^1.89.0",
     "supertest": "^3.1.0",
-    "set-value": "^2.0.1"
+    "set-value": ">=2.0.1"
   }
 }
