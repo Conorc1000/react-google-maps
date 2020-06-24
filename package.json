@@ -14,6 +14,7 @@
     "joi": "^14.3.1",
     "monk": "^7.3.0",
     "morgan": "^1.10.0",
+    "npm-watch": "^0.6.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-google-maps": "^9.4.5",
@@ -27,7 +28,16 @@
     "build": "react-scripts build",
     "build:dev": "env-cmd -f .env.development npm run build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build:dev": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
