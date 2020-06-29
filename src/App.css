@@ -49,6 +49,11 @@ body {
   max-height: 50vh;
 }
 
+.photos-div {
+  border: 1px solid;
+  border-radius: 16px;
+}
+
 .slipway-img {
   max-height: 50vh;
   display: block;
@@ -57,7 +62,7 @@ body {
 }
 
 .carousel-item {
-  background-color: #8ccef2;
+  background-color: #87CEFA;
 }
 
 form {

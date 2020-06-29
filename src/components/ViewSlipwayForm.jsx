@@ -84,16 +84,14 @@ class ViewSlipwayForm extends Component {
 
       var newImgId = "New" + Date.now();
 
-      uploadMsgDiv.innerHTML = '';
+      uploadMsgDiv.innerHTML = 'uploading image...';
 
       imgUploadService(file, uploadMsgDiv, newImgId, (err) => {
-
-        console.log("newImgId", newImgId)
 
         slipway.imgs.push(newImgId);
 
         updateSlipwayDetails(slipway, (err) => {
-          console.log("callback called")
+          uploadMsgDiv.innerHTML = '';
         });
 
       });
@@ -144,6 +142,21 @@ class ViewSlipwayForm extends Component {
   render() {
     let carousel;
 
+
+    let carouselPrevControl = (<CarouselControl
+        direction="prev"
+        directionText="Previous"
+        onClickHandler={this.previous}
+      />)
+
+    let carouselNextControl = (<CarouselControl
+        direction="next"
+        directionText="Next"
+        onClickHandler={this.next}
+      />)
+
+
+
     if (this.state.imgs) {
       let slides = this.state.imgs.map(item => {
         return (
@@ -165,6 +178,7 @@ class ViewSlipwayForm extends Component {
       carousel = (
         <div className="form-bottom-margin slipway-img-max-width-height">
           <Carousel
+            interval="100000"
             activeIndex={this.state.activeIndex}
             next={this.next}
             previous={this.previous}
@@ -175,20 +189,20 @@ class ViewSlipwayForm extends Component {
               onClickHandler={this.goToIndex}
             />
             {slides}
-            <CarouselControl
-              direction="prev"
-              directionText="Previous"
-              onClickHandler={this.previous}
-            />
-            <CarouselControl
-              direction="next"
-              directionText="Next"
-              onClickHandler={this.next}
-            />
+            {carouselPrevControl}
+            {carouselNextControl}
           </Carousel>
         </div>
       );
     }
+
+    let images = this.state.imgs.map(item => {
+      return (<img
+        src={item.src}
+        alt={item.altText}
+        className="slipway-img"
+      />)
+    })
 
     return (
       <Card>
@@ -201,7 +215,17 @@ class ViewSlipwayForm extends Component {
                   this.toggle("1");
                 }}
               >
-                Slipway Info
+                Slipway info
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "2" })}
+                onClick={() => {
+                  this.toggle("2");
+                }}
+              >
+                Manage images
               </NavLink>
             </NavItem>
           </Nav>
@@ -210,38 +234,23 @@ class ViewSlipwayForm extends Component {
               <Row>
                 <Col sm="12">
                   <CardBody>
-                    <CardTitle>
-                      Slipway Name: {this.state.slipwayDetail.Name}
-                    </CardTitle>
                     <a href={this.state.editUrl}>
-                      <Button color="warning" className="form-bottom-margin">
-                        Edit Slipway Information
+                      <Button color="info" className="form-bottom-margin">
+                        Edit slipway info
                       </Button>
                     </a>
-
-                    <br></br>
                     <p>
-                      Choose an image to upload
+                      <b>Slipway Name:</b> {this.state.slipwayDetail.Name}
                     </p>
-
-                    <input type="file" id="file-chooser" />
-
-                    <Button onClick={this.imgUpload} color="warning" className="form-bottom-margin">
-                      Upload Image
-                    </Button>
-
-                    <div id="upload-msg-div"> </div>
-
-
-                    <br></br>
-                    <br></br>
+                    <br/>
+                    {carousel}
+                    <br/>
                     <p>
                       <b>Latitude:</b> {this.state.latLngArray[0]}
                     </p>
                     <p>
                       <b>Longitude:</b> {this.state.latLngArray[1]}
                     </p>
-                    {carousel}
                     <p>
                       <b>Description:</b> {this.state.slipwayDetail.RampDescription}
                     </p>
@@ -280,6 +289,25 @@ class ViewSlipwayForm extends Component {
                     <p>
                       <b>Email:</b> {this.state.slipwayDetail.Email}
                     </p>
+
+                  </CardBody>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="2">
+              <Row>
+                <Col sm="12">
+                  <CardBody>
+                    <CardTitle>Choose an image to upload</CardTitle>
+                    <input type="file" id="file-chooser"/>
+                    <Button onClick={this.imgUpload} color="info" className="form-bottom-margin">
+                      Upload chosen image
+                    </Button>
+                    <div id="upload-msg-div"> </div>
+                    <br/>
+                    <br/>
+                    <CardTitle>Current images</CardTitle>
+                    {images}
                   </CardBody>
                 </Col>
               </Row>

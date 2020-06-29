@@ -44,7 +44,7 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
       xhr.setRequestHeader('x-amz-acl', 'public-read');
       xhr.onload = function(loadResponse) {
         if (xhr.status === 200) {
-          uploadMsgDiv.innerHTML = '<h4>File sucessfully uploaded!</h4>';
+          uploadMsgDiv.innerHTML = '<p>Image sucessfully uploaded</p>';
           callback()
         }
       };
