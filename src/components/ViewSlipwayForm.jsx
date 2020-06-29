@@ -178,7 +178,7 @@ class ViewSlipwayForm extends Component {
       carousel = (
         <div className="form-bottom-margin slipway-img-max-width-height">
           <Carousel
-            interval="100000"
+            interval="10000000"
             activeIndex={this.state.activeIndex}
             next={this.next}
             previous={this.previous}

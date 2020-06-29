@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { SignUpLink } from './SignUp';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes';
@@ -40,7 +40,7 @@ class SignInForm extends Component {
     } = this.state;
 
     const {history} = this.props;
-    
+
     auth.doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE});
@@ -61,7 +61,7 @@ class SignInForm extends Component {
       error,
     } = this.state;
 
-    const isInvalid = 
+    const isInvalid =
       password === '' ||
       email === '';
 
@@ -91,10 +91,12 @@ class SignInForm extends Component {
         </Col>
 
         <Button disabled={isInvalid} type="submit">
-          {isInvalid ? 'Cant Submit' : 'Submit'} 
-        </Button> 
+          {isInvalid ? 'Cant Submit' : 'Submit'}
+        </Button>
 
         {error && <p>{error.message}</p>}
+        <br/>
+        <p>Forgot your password? <Link to={routes.PASSWORD_FORGET}>Click here</Link></p>
 
       </Form>
     )

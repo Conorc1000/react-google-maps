@@ -10,9 +10,6 @@ const NavigationAuth = () => {
         <NavLink href={routes.LANDING}>Map</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href={routes.ACCOUNT}>Account</NavLink>
-      </NavItem>
-      <NavItem>
         <NavLink href={routes.NEW_SLIPWAY}>Add Slipway</NavLink>
       </NavItem>
       <NavItem>
@@ -38,13 +35,16 @@ const NavigationNonAuth = () => {
         <NavLink href={routes.SIGN_IN}>Sign In</NavLink>
       </NavItem>
       <NavItem>
+        <NavLink href={routes.SIGN_IN}>Add Slipway</NavLink>
+      </NavItem>
+      <NavItem>
         <NavLink href={routes.LANDING}>Map</NavLink>
       </NavItem>
       <NavItem>
         <NavLink href={routes.ABOUT}>About Us</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href={routes.CONTACT}>Contact</NavLink>
+        <NavLink href={routes.CONTACT}>Contact Developer</NavLink>
       </NavItem>
     </Nav>
   )

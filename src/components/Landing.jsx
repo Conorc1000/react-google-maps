@@ -59,7 +59,7 @@ const Map = compose(
             onClick={props.onMarkerClusterClick}
             averageCenter
             enableRetinaIcons
-            gridSize={20}
+            gridSize={28}
           >
             {props.state.latLngsArray.map(latLng => (
               <Marker

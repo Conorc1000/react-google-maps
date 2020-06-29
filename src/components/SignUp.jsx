@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { 
+import {
     Link,
-    withRouter, 
+    withRouter,
   } from 'react-router-dom';
 import * as routes from '../constants/routes';
 import { auth } from '../firebase';
@@ -41,7 +41,7 @@ class SignUpForm extends Component {
       email,
       passwordOne,
     } = this.state;
-    
+
     const {
       history,
     } = this.props
@@ -66,7 +66,7 @@ class SignUpForm extends Component {
       error,
     } = this.state
 
-    const isInvalid = 
+    const isInvalid =
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
@@ -95,7 +95,7 @@ class SignUpForm extends Component {
               placeholder="Email Address"
             />
           </FormGroup>
-        </Col>      
+        </Col>
         <Col>
           <FormGroup>
             <Label>Password</Label>
@@ -106,7 +106,7 @@ class SignUpForm extends Component {
               placeholder="Password"
            />
           </FormGroup>
-        </Col>   
+        </Col>
         <Col>
           <FormGroup>
             <Label>Confirm Password</Label>
@@ -117,10 +117,10 @@ class SignUpForm extends Component {
               placeholder="Confirm Password"
             />
           </FormGroup>
-        </Col>                  
-       
+        </Col>
+
         <Button disabled={isInvalid} type="submit">
-          {isInvalid ? 'Cant Submit' : 'Submit'} 
+          {isInvalid ? 'Cant Submit' : 'Submit'}
         </Button>
 
         { error && <p>{error.message}</p> }
