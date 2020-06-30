@@ -12,7 +12,10 @@ import {
 const SignUpPage = ({history}) =>
   <Card>
     <CardBody>
-      <CardTitle>Sign Up</CardTitle>
+      <CardTitle><b>Sign Up</b></CardTitle>
+      <p>Boatlaunch is free! and always will be</p>
+      <p>Signing up will allow you to add slipways</p>
+      <p>We will <b>never</b> send you unsolicited emails from third parties</p>
       <SignUpForm history={history} />
     </CardBody>
   </Card>
