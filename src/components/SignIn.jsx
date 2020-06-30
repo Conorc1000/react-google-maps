@@ -87,7 +87,7 @@ class SignInForm extends Component {
         <br/>
         <br/>
         <p><b>Or sign in</b> with your email</p>
-        <Form onSubmit={this.onSubmit}>
+        <Form className='login-form' onSubmit={this.onSubmit}>
           <Col>
             <FormGroup>
               <Label>Email </Label>
