@@ -19,7 +19,6 @@ const schema = Joi.object().keys({
     .min(3)
     .max(100)
     .required(),
-  suitability: Joi.string().required(),
   latitude: Joi.number()
     .min(-90)
     .max(90)
@@ -33,7 +32,6 @@ const schema = Joi.object().keys({
 const INITIAL_STATE = {
   newSlipway: {
     Name: "",
-    Suitability: "",
     latitude: 0,
     longitude: 0
   }
@@ -48,7 +46,6 @@ class NewSlipwayForm extends Component {
   formIsValid() {
     const slipway = {
       name: this.state.newSlipway.Name,
-      suitability: this.state.newSlipway.Suitability,
       latitude: this.state.newSlipway.latitude,
       longitude: this.state.newSlipway.longitude
     };
@@ -67,7 +64,6 @@ class NewSlipwayForm extends Component {
   reasonNotValid() {
     const slipway = {
       name: this.state.newSlipway.Name,
-      suitability: this.state.newSlipway.Suitability,
       latitude: this.state.newSlipway.latitude,
       longitude: this.state.newSlipway.longitude
     };
@@ -136,10 +132,6 @@ class NewSlipwayForm extends Component {
               createdSlipwayId: thisKey,
               sendingSlipway: false
             });
-
-            console.log("this.state", this.state)
-            console.log("this.props.state", this.props.state)
-
             return;
           })
         })
@@ -261,17 +253,17 @@ class NewSlipwayForm extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="suitability">Select Suitability (Required)*</Label>
+                <Label for="suitability">Select Suitability</Label>
                 <Input
                   type="select"
                   name="Suitability"
                   id="suitability"
                   onChange={this.valueChanged}
                 >
-                  <option value="unknown">Unkown</option>
-                  <option value="portable">Portable Only</option>
-                  <option value="small">Small trailer can be pushed</option>
-                  <option value="large">Large trailer needs a car</option>
+                  <option value="Unkown">Unkown</option>
+                  <option value="Portable Only">Portable Only</option>
+                  <option value="Small trailer can be pushed">Small trailer can be pushed</option>
+                  <option value="Large trailer needs a car">Large trailer needs a car</option>
                 </Input>
               </FormGroup>
               <FormGroup>
@@ -329,7 +321,7 @@ class NewSlipwayForm extends Component {
                   type="text"
                   name="PhoneNumber"
                   id="phone-number"
-                  placeholder="eg 079101....."
+                  placeholder=""
                   onChange={this.valueChanged}
                 />
               </FormGroup>
@@ -339,7 +331,7 @@ class NewSlipwayForm extends Component {
                   type="text"
                   name="Email"
                   id="email"
-                  placeholder="eg name@domain.com"
+                  placeholder=""
                   onChange={this.valueChanged}
                 />
               </FormGroup>
