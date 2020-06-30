@@ -6,9 +6,9 @@ import {
 const AccountPage = () =>
 <Card>
   <CardBody>
-    <CardTitle>Contact</CardTitle>
+    <CardTitle><b>Contact Developer</b></CardTitle>
     <CardText>
-      Please email us at <a target ="_blank" href="mailto:conorc1000@gmail.com">conorc1000@gmail.com</a> with
+      Please email me at <a target ="_blank" href="mailto:conorc1000@gmail.com">conorc1000@gmail.com</a> with
       any thoughts you have about the site, how easy it is to use or any suggestions about how to make it better. Or if you have any feedback
       on things you have found wrong with the site or things that have not worked. In your email, please include information about.
     </CardText>
@@ -23,6 +23,10 @@ const AccountPage = () =>
     </CardText>
     <CardText>
       4) What page you were on when you experienced the problem.
+    </CardText>
+
+    <CardText>
+      I am a freelance web developer. If you would like me to build you a website please get in touch.
     </CardText>
 
   </CardBody>

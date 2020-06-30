@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Card, CardBody, CardTitle, CardText
 } from 'reactstrap';
-import { 
+import {
   Link,
 } from 'react-router-dom';
 import * as routes from '../constants/routes';
@@ -10,8 +10,8 @@ import * as routes from '../constants/routes';
 const AccountPage = () =>
 <Card>
   <CardBody>
-    <CardTitle>About Us</CardTitle>
-    <CardText> 
+    <CardTitle><b>About Us</b></CardTitle>
+    <CardText>
       www.boatlaunch.co.uk is the only UK on-line boating directory with up-to-date and comprehensive information on slipways. It is designed to deliver information for all boating activities with easy-to-use interactive maps. The slipway data is contributed
       by sailors, divers, fishermen, water skiers, harbourmasters and marina operators alike.</CardText>
     <CardText>
@@ -19,7 +19,7 @@ const AccountPage = () =>
       Garmin, Memory Map and SeaPro. We have extensive knowledge of geo-coded database development, usability and quality of data and we develop sophisticated internet mapping interfaces. We also produce the Good Launch Guide in association with CSL
       publishing which lists details of slipways in and around the UK.
     </CardText>
-    <CardText>        
+    <CardText>
       We want the new boatlaunch to be the best online boating directory available to you. We want to make it better so please <Link to={routes.CONTACT}>Contact Us</Link> with and feedback you have about our new web site.
     </CardText>
   </CardBody>
