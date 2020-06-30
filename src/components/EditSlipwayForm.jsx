@@ -126,11 +126,11 @@ class EditSlipwayForm extends Component {
     return (
       <Card>
         <CardBody>
-          <a href={`/view-slipway/`+ this.state.slipwayDetail.idKey}>
+          {this.state.slipwayDetail.idKey ? <a href={`/view-slipway/`+ this.state.slipwayDetail.idKey}>
             <Button color="info" className="form-bottom-margin">
               Back
             </Button>
-          </a>
+          </a> : ""}
           <CardTitle><b>Edit slipway</b></CardTitle>
           <Form onSubmit={this.formSubmitted}>
             <FormGroup>
