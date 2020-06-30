@@ -130,16 +130,9 @@ class SignUpForm extends Component {
 
 }
 
-const SignUpLink = () =>
-  <p>
-    Dont have an account?
-    {' '}
-    <Link to={routes.SIGN_UP}>Sign Up</Link>
-  </p>
 
 export default withRouter(SignUpPage);
 
 export {
   SignUpForm,
-  SignUpLink
 }
