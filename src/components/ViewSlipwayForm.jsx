@@ -156,6 +156,7 @@ class ViewSlipwayForm extends Component {
       />)
 
 
+    let images;
 
     if (this.state.imgs) {
       let slides = this.state.imgs.map(item => {
@@ -194,15 +195,17 @@ class ViewSlipwayForm extends Component {
           </Carousel>
         </div>
       );
-    }
 
-    let images = this.state.imgs.map(item => {
-      return (<img
-        src={item.src}
-        alt={item.altText}
-        className="slipway-img"
-      />)
-    })
+      let images = this.state.imgs.map(item => {
+        return (<img
+          src={item.src}
+          alt={item.altText}
+          className="slipway-img"
+        />)
+      })
+    } else {
+      carousel = (<p><b>Images:</b> No images uploaded yet, you can upload photos via the "Manage Images" tab above</p>)
+    }
 
     return (
       <Card>
