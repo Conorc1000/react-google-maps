@@ -196,7 +196,7 @@ class ViewSlipwayForm extends Component {
         </div>
       );
 
-      let images = this.state.imgs.map(item => {
+      images = this.state.imgs.map(item => {
         return (<img
           src={item.src}
           alt={item.altText}
@@ -204,7 +204,7 @@ class ViewSlipwayForm extends Component {
         />)
       })
     } else {
-      carousel = (<p><b>Images:</b> No images uploaded yet, you can upload photos via the "Manage Images" tab above</p>)
+      carousel = (<p><b>Images:</b> No images uploaded yet, you can upload photos via the "Manage images" tab above</p>)
     }
 
     return (
