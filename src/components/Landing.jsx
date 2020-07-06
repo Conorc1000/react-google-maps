@@ -51,7 +51,7 @@ const Map = compose(
 
       <GoogleMap
         className="map"
-        defaultCenter={{ lat: 51.5074, lng: 0.1278 }}
+        defaultCenter={{ lat: props.state.location.lat, lng: props.state.location.lng }}
         zoom={props.state.zoom}
       >
         {
@@ -104,7 +104,7 @@ class LandingPage extends Component {
         lng: 0.1278
       },
       haveUsersLocation: false,
-      zoom: 3,
+      zoom: 5,
       newSlipway: true,
       sendingMessage: false,
       sentMessage: false,
@@ -126,33 +126,37 @@ class LandingPage extends Component {
     }
   }
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState({
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          },
-          haveUsersLocation: true,
-          zoom: 6
-        });
-      },
-      () => {
-        fetch("https://ipapi.co/json")
-          .then(res => res.json())
-          .then(location => {
-            this.setState({
-              location: {
-                lat: location.latitude,
-                lng: location.longitude
-              },
-              zoom: 5
-            });
-          });
-      }
-    );
-  }
+  // add back in to ask for users location then center map on location
+
+  // componentDidMount() {
+  //   navigator.geolocation.getCurrentPosition(
+  //     position => {
+  //       this.setState({
+  //         location: {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude
+  //         },
+  //         haveUsersLocation: true,
+  //         zoom: 4
+  //       });
+  //     },
+  //     () => {
+  //       fetch("https://ipapi.co/json")
+  //         .then(res => res.json())
+  //         .then(location => {
+  //
+  //           console.log("location", location)
+  //           return this.setState({
+  //             location: {
+  //               lat: location.latitude,
+  //               lng: location.longitude
+  //             },
+  //             zoom: 4
+  //           });
+  //         });
+  //     }
+  //   );
+  // }
 
   render() {
     return <Map state={this.state} />;
