@@ -50,6 +50,7 @@ const imgUploadService = (file, uploadMsgDiv, newImgId, callback) => {
       };
       xhr.onerror = function() {
         alert("Could not upload file.");
+        uploadMsgDiv.innerHTML = '';
       };
       xhr.send(file);
     }
