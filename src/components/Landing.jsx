@@ -15,13 +15,14 @@ const {
   MarkerClusterer
 } = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
+
 const Map = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLE_API_KEY + "&?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: "100vh" }} />,
-    containerElement: <div style={{ height: "90vh" }} />,
-    mapElement: <div style={{ height: "calc(100vh - 56px)" }} />
+    loadingElement: <div style={{ height: "calc(100vh - 150px)" }} />,
+    containerElement: <div style={{ height: "calc(100vh - 150px)" }} />,
+    mapElement: <div style={{ height: "calc(100vh - 150px)" }} />,
   }),
   withHandlers({
     onMarkerClusterClick: () => markerClusterer => {

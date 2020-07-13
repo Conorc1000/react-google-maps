@@ -25,11 +25,6 @@
 body {
   margin: 0px;
   width: 100vw;
-  height: 100vh;
-}
-
-#root {
-  height: 100%;
 }
 
 .map {
@@ -68,6 +63,10 @@ body {
 .login-form {
   text-align: center;
   margin: auto;
+}
+
+.small-text {
+  font-size: 14px;
 }
 
 form {
