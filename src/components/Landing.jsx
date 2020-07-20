@@ -16,6 +16,34 @@ const {
 } = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 
+const getMapStateFromLocalStorage = () => {
+  const storage = localStorage.getItem('mapState');
+
+  if (storage && Object.keys(JSON.parse(storage)).length !== 0) {
+
+    const parsedStorage = JSON.parse(storage)
+    if( typeof parsedStorage.lat == 'string' ) {
+      return {
+        zoom: 9, //parsedStorage.zoom, allways seems to be 5
+        lat: Number(parsedStorage.lat),
+        lng: Number(parsedStorage.lng)
+      }
+    } else {
+      return JSON.parse(storage);
+    }
+  }
+
+  return {
+    zoom: 5,
+    lat: 51.5074,
+    lng: 0.1278
+  }
+}
+
+const storeMapStateInLocalStorage = location => {
+  localStorage.setItem('mapState', JSON.stringify(location));
+}
+
 const Map = compose(
   withProps({
     googleMapURL:
@@ -53,7 +81,7 @@ const Map = compose(
       <GoogleMap
         className="map"
         defaultCenter={{ lat: props.state.location.lat, lng: props.state.location.lng }}
-        zoom={props.state.zoom}
+        zoom={props.state.location.zoom}
       >
         {
           <MarkerClusterer
@@ -82,6 +110,7 @@ const Map = compose(
                           </p>
                         )}
 
+                      {props.saveMapState(props.state.location.zoom, latLng[0], latLng[1])}
                       <a href={`/view-slipway/` + latLng[2]}>More Information</a>
                     </div>
                   </InfoWindow>
@@ -100,12 +129,8 @@ class LandingPage extends Component {
     super(props);
 
     this.state = {
-      location: {
-        lat: 51.5074,
-        lng: 0.1278
-      },
+      location: getMapStateFromLocalStorage(),
       haveUsersLocation: false,
-      zoom: 5,
       newSlipway: true,
       sendingMessage: false,
       sentMessage: false,
@@ -113,6 +138,8 @@ class LandingPage extends Component {
       latLngsObj: this.props.latLngsObj,
       slipwayDetails: this.props.slipwayDetails
     };
+
+    this.saveMapState = this.saveMapState.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -127,40 +154,16 @@ class LandingPage extends Component {
     }
   }
 
-  // add back in to ask for users location then center map on location
-
-  // componentDidMount() {
-  //   navigator.geolocation.getCurrentPosition(
-  //     position => {
-  //       this.setState({
-  //         location: {
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude
-  //         },
-  //         haveUsersLocation: true,
-  //         zoom: 4
-  //       });
-  //     },
-  //     () => {
-  //       fetch("https://ipapi.co/json")
-  //         .then(res => res.json())
-  //         .then(location => {
-  //
-  //           console.log("location", location)
-  //           return this.setState({
-  //             location: {
-  //               lat: location.latitude,
-  //               lng: location.longitude
-  //             },
-  //             zoom: 4
-  //           });
-  //         });
-  //     }
-  //   );
-  // }
+  saveMapState(zoom, lat, lng) {
+    storeMapStateInLocalStorage({
+      zoom: zoom,
+      lat: lat,
+      lng: lng
+    })
+  }
 
   render() {
-    return <Map state={this.state} />;
+    return <Map state={this.state} saveMapState={this.saveMapState} />;
   }
 }
 
