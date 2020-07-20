@@ -24,7 +24,7 @@ const getMapStateFromLocalStorage = () => {
     const parsedStorage = JSON.parse(storage)
     if( typeof parsedStorage.lat == 'string' ) {
       return {
-        zoom: 9, //parsedStorage.zoom, allways seems to be 5
+        zoom: 11, //parsedStorage.zoom, allways seems to be 5
         lat: Number(parsedStorage.lat),
         lng: Number(parsedStorage.lng)
       }
