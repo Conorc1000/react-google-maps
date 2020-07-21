@@ -47,7 +47,6 @@ const Map = compose(
 
 class ViewSlipway extends Component {
   state = {
-    zoom: 3,
     id: this.props.id
   };
 
@@ -59,7 +58,7 @@ class ViewSlipway extends Component {
       this.setState({
         latLngArray: nextProps.latLngArray,
         slipwayDetails: nextProps.slipwayDetails,
-        zoom: 12,
+        zoom: 14,
         location: {
           lat: nextProps.latLngArray[0],
           lng: nextProps.latLngArray[1]

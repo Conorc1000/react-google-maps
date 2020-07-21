@@ -140,24 +140,26 @@ class ViewSlipwayForm extends Component {
   }
 
   render() {
+    
+    let carouselPrevControl;
+    let carouselNextControl;
+    if (this.state.imgs.length > 1) {
+      carouselPrevControl = <CarouselControl
+          direction="prev"
+          directionText="Previous"
+          onClickHandler={this.previous}
+        />
+
+      carouselNextControl = (<CarouselControl
+          direction="next"
+          directionText="Next"
+          onClickHandler={this.next}
+        />)
+
+    }
+
     let carousel;
-
-
-    let carouselPrevControl = (<CarouselControl
-        direction="prev"
-        directionText="Previous"
-        onClickHandler={this.previous}
-      />)
-
-    let carouselNextControl = (<CarouselControl
-        direction="next"
-        directionText="Next"
-        onClickHandler={this.next}
-      />)
-
-
     let images;
-
     if (this.state.imgs) {
       let slides = this.state.imgs.map(item => {
         return (
