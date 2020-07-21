@@ -80,7 +80,7 @@ const Map = compose(
 
       <GoogleMap
         className="map"
-        defaultCenter={{ lat: props.state.location.lat, lng: props.state.location.lng }}
+        defaultCenter={{ lat: Number(props.state.location.lat), lng: Number(props.state.location.lng) }}
         zoom={props.state.location.zoom}
       >
         {
