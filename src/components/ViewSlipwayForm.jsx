@@ -140,23 +140,20 @@ class ViewSlipwayForm extends Component {
   }
 
   render() {
-    
-    let carouselPrevControl;
-    let carouselNextControl;
-    if (this.state.imgs.length > 1) {
-      carouselPrevControl = <CarouselControl
+
+
+    let carouselPrevControl = <CarouselControl
           direction="prev"
           directionText="Previous"
           onClickHandler={this.previous}
         />
 
-      carouselNextControl = (<CarouselControl
+    let carouselNextControl = (<CarouselControl
           direction="next"
           directionText="Next"
           onClickHandler={this.next}
         />)
 
-    }
 
     let carousel;
     let images;
@@ -231,6 +228,26 @@ class ViewSlipwayForm extends Component {
                 }}
               >
                 Manage images
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "3" })}
+                onClick={() => {
+                  this.toggle("3");
+                }}
+              >
+                Comments
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "4" })}
+                onClick={() => {
+                  this.toggle("4");
+                }}
+              >
+                Delete
               </NavLink>
             </NavItem>
           </Nav>
@@ -313,6 +330,26 @@ class ViewSlipwayForm extends Component {
                     <br/>
                     <CardTitle>Current images</CardTitle>
                     {images}
+                  </CardBody>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="3">
+              <Row>
+                <Col sm="12">
+                  <CardBody>
+                    <CardTitle>Comments</CardTitle>
+                  </CardBody>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="4">
+              <Row>
+                <Col sm="12">
+                  <CardBody>
+                    <CardTitle>Delete slipway or photos</CardTitle>
+
+                    <a href="mailto:conorc1000@gmail.com">Email Me</a>
                   </CardBody>
                 </Col>
               </Row>
