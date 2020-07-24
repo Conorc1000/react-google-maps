@@ -209,7 +209,7 @@ class ViewSlipwayForm extends Component {
     var re = new RegExp("^(http)", "i");
 
     let website;
-    if (re.test(this.state.slipwayDetail.Website)) {
+    if (!this.state.slipwayDetail.Website || re.test(this.state.slipwayDetail.Website)) {
       website = this.state.slipwayDetail.Website
     } else {
       website = ("https://" + this.state.slipwayDetail.Website)
