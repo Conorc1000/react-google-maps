@@ -71,23 +71,26 @@ const Map = compose(
   withScriptjs,
   withGoogleMap
 )(props => {
+
+  function handleZoomChange() {
+    props.onZoomChange(this.getZoom());
+  }
+
   return (
     <div>
-      <div>
-
-      </div>
 
       <GoogleMap
         className="map"
         defaultCenter={{ lat: Number(props.state.location.lat), lng: Number(props.state.location.lng) }}
         zoom={props.state.location.zoom}
+        onZoomChanged={handleZoomChange}
       >
         {
           <MarkerClusterer
             onClick={props.onMarkerClusterClick}
             averageCenter
             enableRetinaIcons
-            gridSize={28}
+            gridSize={ (props.state.location.zoom < 11) && 28} //wont show cluster < 11 zoom
           >
             {props.state.latLngsArray.map(latLng => (
               <Marker
@@ -139,6 +142,7 @@ class LandingPage extends Component {
     };
 
     this.saveMapState = this.saveMapState.bind(this);
+    this.handleZoomChange = this.handleZoomChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -161,8 +165,19 @@ class LandingPage extends Component {
     })
   }
 
+  handleZoomChange(newZoom) {
+
+    this.setState({location: {
+      zoom: newZoom,
+      lat: this.state.location.lat,
+      lng: this.state.location.lng
+      }
+    })
+    console.log("this.state.location", this.state.location );
+  }
+
   render() {
-    return <Map state={this.state} saveMapState={this.saveMapState} />;
+    return <Map state={this.state} saveMapState={this.saveMapState} onZoomChange={this.handleZoomChange} />;
   }
 }
 
