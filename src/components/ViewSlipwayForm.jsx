@@ -206,7 +206,7 @@ class ViewSlipwayForm extends Component {
       carousel = (<p><b>Images:</b> No images uploaded yet, you can upload photos via the "Manage images" tab above</p>)
     }
 
-    var re = new RegExp("^(http|https)://", "i");
+    var re = new RegExp("^(http)", "i");
 
     let website;
     if (re.test(this.state.slipwayDetail.Website)) {
@@ -301,7 +301,7 @@ class ViewSlipwayForm extends Component {
                       <b>Email:</b> {this.state.slipwayDetail.Email}
                     </p>
                     <p>
-                      <b>Website: </b><a target="_blank" href={website}> {this.state.slipwayDetail.Website} </a>
+                      <b>Website: </b><a target="_blank" href={website}>{website}</a>
                     </p>
 
                   </CardBody>
