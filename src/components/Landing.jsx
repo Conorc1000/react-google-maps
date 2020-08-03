@@ -14,8 +14,6 @@ import {
 } from "react-google-maps";
 import {} from "reactstrap";
 import { database } from "../firebase";
-import * as routes from '../constants/routes';
-import SignOutButton from "./SignOut";
 
 const {
   MarkerClusterer
