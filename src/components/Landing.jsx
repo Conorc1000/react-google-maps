@@ -270,44 +270,45 @@ class LandingPage extends Component {
   }
 
   toggleLargeFilter() {
-    storeFilterStateInLocalStorage({filterLarge: !this.state.filter.filterLarge})
-    this.setState({ filter: {
+    let filterObj = {
         filterLarge: !this.state.filter.filterLarge,
         filterSmall: this.state.filter.filterSmall,
         filterPortable: this.state.filter.filterPortable,
         filterUnknown: this.state.filter.filterUnknown
       }
+    storeFilterStateInLocalStorage({filterLarge: !this.state.filter.filterLarge})
+    this.setState({ filter: filterObj
     })
   }
   toggleSmallFilter() {
-    storeFilterStateInLocalStorage({filterSmall: !this.state.filter.filterSmall})
-    this.setState({ filter: {
+    let filterObj = {
       filterLarge: this.state.filter.filterLarge,
       filterSmall: !this.state.filter.filterSmall,
       filterPortable: this.state.filter.filterPortable,
       filterUnknown: this.state.filter.filterUnknown
-      }
-    })
+    }
+    storeFilterStateInLocalStorage(filterObj)
+    this.setState({ filter: filterObj})
   }
   togglePortableFilter() {
-    storeFilterStateInLocalStorage({filterPortable: !this.state.filter.filterPortable})
-    this.setState({ filter: {
+    let filterObj = {
       filterLarge: this.state.filter.filterLarge,
       filterSmall: this.state.filter.filterSmall,
       filterPortable: !this.state.filter.filterPortable,
       filterUnknown: this.state.filter.filterUnknown
       }
-    })
+    storeFilterStateInLocalStorage(filterObj)
+    this.setState({ filter: filterObj })
   }
   toggleUnknownFilter() {
-    storeFilterStateInLocalStorage({filterUnknown: !this.state.filter.filterUnknown})
-    this.setState({ filter: {
+    let filterObj = {
       filterLarge: this.state.filter.filterLarge,
       filterSmall: this.state.filter.filterSmall,
       filterPortable: this.state.filter.filterPortable,
       filterUnknown: !this.state.filter.filterUnknown
       }
-    })
+    storeFilterStateInLocalStorage(filterObj)
+    this.setState({ filter: filterObj})
   }
 
   render() {
