@@ -276,7 +276,7 @@ class LandingPage extends Component {
         filterPortable: this.state.filter.filterPortable,
         filterUnknown: this.state.filter.filterUnknown
       }
-    storeFilterStateInLocalStorage({filterLarge: !this.state.filter.filterLarge})
+    storeFilterStateInLocalStorage(filterObj)
     this.setState({ filter: filterObj
     })
   }
