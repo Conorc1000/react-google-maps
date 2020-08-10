@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <script src="/prebid-ads.js"></script>
   <meta charset="utf-8">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -44,12 +45,18 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-116049868-1');
+
+    var dimensionValue = Boolean(window.canRunAds);
+
+    console.log("dimensionValue", dimensionValue)
+    ga('set', 'dimension1', dimensionValue);
   </script>
 
   <title>Boatlaunch</title>
 </head>
 
 <body>
+
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
@@ -64,6 +71,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  <script type="text/javascript">
+    //if( window.canRunAds === undefined ){
+      // adblocker detected, show fallback
+      //alert('Blocking Ads: Yes. Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by disabling your ad blocker.')
+    //}
+  </script>
+
 </body>
 
 </html>
