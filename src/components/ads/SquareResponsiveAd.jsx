@@ -7,7 +7,7 @@ export default class SquareResponsiveAd extends React.Component {
 
 render () {
     return (
-      <div className='ad'>
+      <div className='ad' style={{ margin-top: '1rem' }} >
         <ins className='adsbygoogle'
           style={{ display: 'block' }}
           data-ad-client='ca-pub-7949613215795919'
