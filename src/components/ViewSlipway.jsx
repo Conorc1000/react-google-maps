@@ -71,8 +71,8 @@ class ViewSlipway extends Component {
   render() {
     return (
       <div>
-        <Map className="new-slipway-map" state={this.state} />
         <SquareResponsiveAd/>
+        <Map className="new-slipway-map" state={this.state} />
         <ViewSlipwayForm state={this.state} />
       </div>
     );
