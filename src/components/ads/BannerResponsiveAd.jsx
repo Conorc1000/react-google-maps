@@ -3,6 +3,7 @@ import React from 'react';
 export default class BannerResponsiveAd extends React.Component {
 
   shouldComponentUpdate(nextProps) {
+    console.log("BANNER AD CURRENT PATH UPDATED")
     return this.props.currentPath !== nextProps.currentPath
   }
 

@@ -3,6 +3,8 @@ import React from 'react';
 export default class SquareResponsiveAd extends React.Component {
 
   shouldComponentUpdate(nextProps) {
+
+    console.log("SQUARE AD CURRENT PATH UPDATED")
     return this.props.currentPath !== nextProps.currentPath
   }
 
