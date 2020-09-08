@@ -1,7 +1,10 @@
 import React from 'react';
 
 export default class BannerResponsiveAd extends React.Component {
-
+  // componentDidMount() {
+  //   window.adsbygoogle = window.adsbygoogle || []
+  //   window.adsbygoogle.push({})
+  // }
   shouldComponentUpdate(nextProps) {
     console.log("BANNER AD CURRENT PATH should UPDATE",  this.props.currentPath !== nextProps.currentPath )
     return this.props.currentPath !== nextProps.currentPath
@@ -12,9 +15,11 @@ export default class BannerResponsiveAd extends React.Component {
     window.adsbygoogle.push({})
   }
 
-render () {
+  render () {
+    const { path } = this.props;
+
     return (
-      <div className='ad' style={{'display':'block', 'text-align':'center' }} >
+      <div key={path} className='ad' style={{'display':'block', 'text-align':'center' }} >
         <ins className='adsbygoogle'
           style={{ display: 'inline-block' 
           , 'width': '728px'

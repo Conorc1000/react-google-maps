@@ -2,6 +2,10 @@ import React from 'react';
 
 export default class SquareResponsiveAd extends React.Component {
 
+  // componentDidMount() {
+  //   window.adsbygoogle = window.adsbygoogle || []
+  //   window.adsbygoogle.push({})
+  // }
   shouldComponentUpdate(nextProps) {
     console.log("this.props.currentPath",  this.props.currentPath )
     console.log("nextProps.currentPath",  nextProps.currentPath )
@@ -15,9 +19,11 @@ export default class SquareResponsiveAd extends React.Component {
     window.adsbygoogle.push({})
   }
 
-render () {
+  render () {
+    const { path } = this.props;
+
     return (
-      <div className='ad' style={{ 'margin-top': '1rem' }} >
+      <div key={path} className='ad' style={{ 'margin-top': '1rem' }} >
         <ins className='adsbygoogle'
           style={{ display: 'block' }}
           data-ad-client='ca-pub-7949613215795919'
