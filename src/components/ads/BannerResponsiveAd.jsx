@@ -7,13 +7,13 @@ export default class BannerResponsiveAd extends React.Component {
   }
 
   componentDidUpdate () {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    window.adsbygoogle = window.adsbygoogle || []
+    window.adsbygoogle.push({})
   }
-
 
 render () {
     return (
-      <div className='ad' style={{'display':'block' }} >
+      <div className='ad' style={{'display':'block', 'text-align':'center' }} >
         <ins className='adsbygoogle'
           style={{ display: 'inline-block' 
           , 'width': '728px'

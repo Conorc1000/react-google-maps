@@ -7,7 +7,8 @@ export default class SquareResponsiveAd extends React.Component {
   }
 
   componentDidUpdate () {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    window.adsbygoogle = window.adsbygoogle || []
+    window.adsbygoogle.push({})
   }
 
 render () {
