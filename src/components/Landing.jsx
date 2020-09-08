@@ -4,6 +4,8 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Un
 import SmallPin from "./icons8-map-pin-20.png";
 import MediumPin from "./icons8-map-pin-35.png";
 import LargePin from "./icons8-map-pin-48.png";
+import BannerResponsiveAd from "./ads/BannerResponsiveAd";
+
 
 import {
   withScriptjs,
@@ -78,9 +80,9 @@ const Map = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLE_API_KEY + "&?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: "calc(100vh - 112px)" }} />,
-    containerElement: <div style={{ height: "calc(100vh - 112px)" }} />,
-    mapElement: <div style={{ height: "calc(100vh - 112px)" }} />,
+    loadingElement: <div style={{ height: "calc(100vh - 200px)" }} />,
+    containerElement: <div style={{ height: "calc(100vh - 200px)" }} />,
+    mapElement: <div style={{ height: "calc(100vh - 200px)" }} />,
   }),
   withHandlers({
     onMarkerClusterClick: () => markerClusterer => {
@@ -314,6 +316,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div>
+        <BannerResponsiveAd />
         <Map state={this.state} saveMapState={this.saveMapState} onZoomChange={this.handleZoomChange} />
         <nav className="navbar fixed-bottom navbar-light" role="navigation">
           <Nav pills className="w-100">
