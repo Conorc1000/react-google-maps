@@ -316,7 +316,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div>
-        <BannerResponsiveAd />
+        <BannerResponsiveAd currentPath="/landing" />
         <Map state={this.state} saveMapState={this.saveMapState} onZoomChange={this.handleZoomChange} />
         <nav className="navbar fixed-bottom navbar-light" role="navigation">
           <Nav pills className="w-100">
