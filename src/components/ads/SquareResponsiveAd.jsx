@@ -1,7 +1,12 @@
 import React from 'react';
 
 export default class SquareResponsiveAd extends React.Component {
-  componentDidMount () {
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.currentPath !== nextProps.currentPath
+  }
+
+  componentDidUpdate () {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   }
 
