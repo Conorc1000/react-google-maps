@@ -4,6 +4,8 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Un
 import SmallPin from "./icons8-map-pin-20.png";
 import MediumPin from "./icons8-map-pin-35.png";
 import LargePin from "./icons8-map-pin-48.png";
+import TidalIconLarge from "./icons8-low-tide-circle-48.png";
+import TidalIconMedium from "./icons8-low-tide-circle-26.png";
 
 import {
   withScriptjs,
@@ -158,6 +160,14 @@ const Map = compose(
     }
   }
 
+  function tidalIcon(zoom) {
+    if (zoom < 12) {
+      return TidalIconMedium;
+    } else {
+      return TidalIconLarge;
+    }
+  }
+
   return (
     <div>
 
@@ -169,7 +179,15 @@ const Map = compose(
         options={createMapOptions}
       >
           <div>
-
+            {props.state.tidalStations.map(ts => (
+              <div>{(
+                <Marker 
+                  key={ts.name}
+                  position={{ lat: Number(ts.lat), lng: Number(ts.lng) }}
+                  icon={tidalIcon(props.state.location.zoom)}
+                  />
+              )}</div>
+            ))}
             {props.state.latLngsArray.map(latLng => (
               <div>
               {
@@ -205,9 +223,7 @@ const Map = compose(
                 </Marker>)
               }
               </div>
-            ))
-
-          }
+            ))}
         </div>
       </GoogleMap>
     </div>
@@ -228,6 +244,7 @@ class LandingPage extends Component {
       latLngsObj: this.props.latLngsObj,
       slipwayDetails: this.props.slipwayDetails,
       filteredSlipwayDetails: this.props.slipwayDetails,
+      tidalStations: this.props.tidalStations,
       filter: getFiltersFromLocalStorage(),
     };
     this.saveMapState = this.saveMapState.bind(this);
@@ -242,12 +259,14 @@ class LandingPage extends Component {
     if (nextProps.latLngsArray !== this.state.latLngsArray
       || nextProps.latLngsObj !== this.state.latLngsObj
       || nextProps.slipwayDetails !== this.state.slipwayDetails
+      || nextProps.tidalStations !== this.state.tidalStations
     ) {
       this.setState({
         latLngsArray: nextProps.latLngsArray,
         latLngsObj: nextProps.latLngsObj,
         slipwayDetails: nextProps.slipwayDetails,
-        filteredSlipwayDetails: nextProps.slipwayDetails
+        filteredSlipwayDetails: nextProps.slipwayDetails,
+        tidalStations: nextProps.tidalStations
        });
     }
   }

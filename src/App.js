@@ -23,7 +23,15 @@ class App extends Component {
     this.state = {
       authUser: null,
       latLngsArray: [],
-      latLngsObj: {}
+      latLngsObj: {},
+      tidalStations: [
+        {name: 'IMMINGHAM', lat:'53.63', lng:'-0.187'}
+      , {name: 'CROMER', lat:'52.934', lng:'1.302'}
+      , {name: 'LOWESTOFT', lat:'52.473', lng:'1.75'}
+      , {name: 'HARWICH', lat:'51.948', lng:'1.292'}
+      , {name: 'SHEERNESS', lat:'51.446', lng:'0.743'}
+      , {name: 'DOVER', lat:'51.114', lng:'1.323'}
+      ]
     };
   }
 
@@ -68,6 +76,7 @@ class App extends Component {
                 latLngsObj={this.state.latLngsObj}
                 latLngsArray={this.state.latLngsArray}
                 slipwayDetails={this.state.slipwayDetails}
+                tidalStations={this.state.tidalStations}
               />
             )}
           />
