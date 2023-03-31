@@ -15,7 +15,6 @@ import {
 import {} from "reactstrap";
 import { database } from "../firebase"; 
 
-
 const {
   MarkerClusterer
 } = require("react-google-maps/lib/components/addons/MarkerClusterer");
