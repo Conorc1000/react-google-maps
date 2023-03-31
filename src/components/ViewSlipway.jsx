@@ -1,7 +1,6 @@
 import { compose, withProps } from "recompose";
 import React, { Component } from "react";
 import ViewSlipwayForm from "./ViewSlipwayForm";
-import SquareResponsiveAd from "./ads/SquareResponsiveAd";
 
 import {
   withScriptjs,
@@ -72,7 +71,6 @@ class ViewSlipway extends Component {
     return (
       <div>
         <Map className="new-slipway-map" state={this.state} />
-        <SquareResponsiveAd/>
         <ViewSlipwayForm state={this.state} />
       </div>
     );
