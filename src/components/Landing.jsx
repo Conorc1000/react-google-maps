@@ -13,7 +13,8 @@ import {
   InfoWindow
 } from "react-google-maps";
 import {} from "reactstrap";
-import { database } from "../firebase";
+import { database } from "../firebase"; 
+
 
 const {
   MarkerClusterer
